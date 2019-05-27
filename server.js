@@ -1,17 +1,28 @@
 const express = require('express');
 const morgan = require('morgan');   //Muestra peticiones en consola
-const cors = requier('cors');
+const cors = require('cors');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const sesion = require('express-session');
+const bd = require('express-mysql-session');
+const {database } = require('./keys');
 
 const app = express();
 app.set('port', process.env.PORT || 5000);
 
-
-
 //middleware
+app.use(sesion({
+    secret: "pipo",
+    resave: false,
+    saveUninitialized: false,
+    store: new bd(database),
+
+}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.use(cors());
+app.use(flash());
 
 //globales
 app.use((req, res, next) =>{
@@ -23,7 +34,6 @@ app.use((req, res, next) =>{
 });
 
 //routes
-var Users = require('./routes/Users')
 app.use(require('./routes/Users'));
 
 
@@ -32,3 +42,4 @@ app.listen(app.get('port'), () =>{
     console.log('server on port', app.get('port'));
 
 });
+
