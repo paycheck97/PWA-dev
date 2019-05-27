@@ -1,0 +1,27 @@
+{
+  "name": "pwa-dev",
+  "version": "1.0.0",
+  "description": "React + Express + NodeJS + Lighthouse recipe app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paycheck97/PWA-dev.git"
+  },
+  "author": "Dream Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paycheck97/PWA-dev/issues"
+  },
+  "homepage": "https://github.com/paycheck97/PWA-dev#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "json-parser": "^1.1.5",
+    "morgan": "^1.9.1",
+    "mysql": "^2.17.1",
+    "nodemon": "^1.19.1"
+  }
+}
