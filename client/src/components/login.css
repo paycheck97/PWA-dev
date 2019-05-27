@@ -1,0 +1,132 @@
+#heading {
+  padding: 20px;
+  text-decoration: overline;
+  align-items: center;
+  text-align: center;
+  line-height: 1.5;
+  font-family: "Times New Roman", Times, serif;
+  color: gray;
+  text-align: center;
+  font-size: 1.5em;
+  animation-name: textspace;
+  animation-duration: 2s;
+}
+
+#boton {
+  margin: auto;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
+}
+
+#texto {
+  width: 50%;
+  margin: auto;
+  align-items: center;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  text-transform: uppercase;
+  color: gray;
+}
+
+#power {
+  font-weight: bold;
+  animation-name: textcolor;
+  animation-duration: 8s;
+}
+
+.container img {
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 1s ease;
+  text-transform: uppercase;
+}
+
+#imagen:hover .image {
+  opacity: 0.2;
+}
+
+#imagen:hover .overlay {
+  opacity: 1;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.text {
+  color: black;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+@keyframes textcolor {
+  0% {
+    color: white;
+  }
+  50% {
+    color: white;
+  }
+  75% {
+    color: black;
+  }
+  100% {
+    color: gray;
+  }
+}
+
+@keyframes textspace {
+  0% {
+    color: white;
+  }
+
+  100% {
+    color: gray;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  #back {
+    margin-top: 100px;
+    background-color: white;
+    margin: auto;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #texto {
+    width: 90%;
+    margin-bottom: 80px;
+  }
+  #back {
+    padding: 0px;
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+    height: auto;
+  }
+
+  .container img {
+    margin-bottom: 50px;
+  }
+  #heading {
+    line-height: 3;
+  }
+}
