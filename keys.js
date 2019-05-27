@@ -6,4 +6,5 @@ module.exports = {
         password: 'password',
         database: 'vuelos_guacamaya',
     }
+    
 };

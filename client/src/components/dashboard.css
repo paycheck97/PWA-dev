@@ -1,0 +1,23 @@
+.par{
+    color: beige
+}
+.container{
+    border-color: blue
+}
+.container2{
+    text-align: center;
+    
+}
+
+#rec {
+    margin: auto;
+    width:95%;
+}
+#search {
+    margin: auto;
+    width: 50%;
+}
+
+h2 {
+    color: white;
+}

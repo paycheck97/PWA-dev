@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/paycheck97/PWA-dev#readme",
   "dependencies": {
+    "@material-ui/core": "^4.0.1",
+    "@material-ui/icons": "^4.0.1",
     "bcrypt": "^3.0.6",
     "connect-flash": "^0.1.1",
     "cors": "^2.8.5",

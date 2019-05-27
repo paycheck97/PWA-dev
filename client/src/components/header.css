@@ -1,0 +1,11 @@
+.banner {
+  margin: 10px;
+  display: flex;
+  height: 50px;
+}
+
+.logo {
+  max-height: 100%;
+  width: auto;
+  margin: auto;
+}
