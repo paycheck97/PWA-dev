@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { Link } from 'react-router-dom'
 
 
 const styles = theme => ({
@@ -79,16 +80,15 @@ function SignIn(props) {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <Button
+          <Link to="/Dashboard"><Button
             type="submit"
             fullWidth
             variant="contained"
             color="secondary"
             className={classes.submit}
-            href="/Dashboard"
           >
             Sign in
-          </Button>
+          </Button></Link>
         </form>
       </Paper>
     </main>
