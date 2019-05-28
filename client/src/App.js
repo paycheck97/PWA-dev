@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import Dashboard from "./components/dashboard.js";
 import Info from "./components/info";
+import Admin from "./components/admin";
+import Edit from "./components/editarecetas";
 
 // Import the History component to be used below
 
@@ -17,6 +19,8 @@ function App() {
         <Route path="/User" component={User} />
         <Route path="/Dashboard" component={Dashboard} />
         <Route path="/Info" component={Info} />
+        <Route path="/Admin" component={Admin} />
+        <Route path="/Edit" component={Edit} />
       </div>
     </BrowserRouter>
   );
