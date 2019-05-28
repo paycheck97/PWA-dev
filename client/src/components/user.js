@@ -10,7 +10,7 @@ import Paper from "@material-ui/core/Paper";
 
 
 import MenuAppBar from "./navbar";
-import Recetas from "./recetas";
+import Recetas from "./prueba";
 
 const User = () => {
   const bull = <span>•</span>;
@@ -34,10 +34,10 @@ const User = () => {
           <Button size="small">Edit Username</Button>
         </CardActions>
       </Card>
-      <Paper id="recetas">
+      <div id="recetas">
         <h1> Recetas Favoritas </h1>
         <Recetas />
-      </Paper>
+      </div>
     </>
   );
 };

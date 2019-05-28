@@ -4,8 +4,7 @@ import "./dashboard.css";
 import PropTypes from "prop-types";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";
-import Recetas from "./recetas";
-import Paper from "@material-ui/core/Paper";
+import Recetas from "./prueba";
 
 
 import MenuAppBar from "./navbar";
@@ -95,16 +94,9 @@ class dashboard extends Component {
     state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
-    //ejemplos: []
+    recetas: []
     }
   
-  
-  /*componentDidMount() {
-      fetch('/example')
-      .then(res => res.json())
-      .then(ejemplos => this.setState({ejemplos}, () => console.log('Fetch realizado', ejemplos)));
-  }*/
-
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -150,10 +142,10 @@ class dashboard extends Component {
               </form>
             </div>
           </div>
-          <Paper id="rec">
+          <div id="rec">
             <h1> Recetas Sugeridas </h1>
             <Recetas />
-          </Paper>
+          </div>
           </div>
       </div>
     );
