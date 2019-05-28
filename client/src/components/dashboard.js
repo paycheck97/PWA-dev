@@ -91,10 +91,19 @@ const styles = theme => ({
 });
 
 class dashboard extends Component {
-  state = {
+  
+    state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null
-  };
+    mobileMoreAnchorEl: null,
+    //ejemplos: []
+    }
+  
+  
+  /*componentDidMount() {
+      fetch('/example')
+      .then(res => res.json())
+      .then(ejemplos => this.setState({ejemplos}, () => console.log('Fetch realizado', ejemplos)));
+  }*/
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -113,13 +122,24 @@ class dashboard extends Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  
   render() {
+    //const {ejemplos} = this.state;
+   // console.log(ejemplos)
     return (
 
       <div className="supercontainer">
         <MenuAppBar />
+        
         <div className="container2">
           <h2>SOUS-CHEFF</h2>
+          <div>
+          {/*<ul>
+          {ejemplos.map(ejemplos => 
+            <li key={ejemplos.id_ciudad}>{ejemplos.nombre_ciudad}</li>
+          )}
+          </ul>*/}
+          </div>
           <div>
             <div id="search">
               <form className="pure-form">
@@ -134,7 +154,7 @@ class dashboard extends Component {
             <h1> Recetas Sugeridas </h1>
             <Recetas />
           </Paper>
-        </div>
+          </div>
       </div>
     );
   }
