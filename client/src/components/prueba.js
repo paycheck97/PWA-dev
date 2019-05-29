@@ -47,10 +47,7 @@ class prueba extends Component {
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
                       <Link to="/Info" className="btn btn-primary" onClick={this.getID({id})}>
-                        Learn More
-                      </Link>
-                      <Link to="/Info" className="btn btn-warning">
-                        Favorite
+                        Edit
                       </Link>
                     </div>
                   </div>

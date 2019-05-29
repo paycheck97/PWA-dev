@@ -5,6 +5,8 @@ import { fade } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";
 import Recetas from "./prueba";
 import Paper from "@material-ui/core/Paper";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 
 import MenuAppBar from "./navbar";
@@ -112,7 +114,13 @@ class dashboard extends Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  getID = (id) => {
+    console.log(id)
+    
+  }
+  
   render() {
+    var id = null;
     return (
 
       <div className="supercontainer">
@@ -128,12 +136,19 @@ class dashboard extends Component {
                 </button>
               </form>
             </div>
+            <Link to="/Agregar" className="btn btn-primary" onClick={this.getID({id})}>
+                        Agregar Recetas
+                      </Link>
+                      <Link to="/Ingredientes" className="btn btn-primary" onClick={this.getID({id})}>
+                        Agregar Ingredientes
+                      </Link>
           </div>
           <Paper id="rec">
             <h1> Recetas Existentes </h1>
             <Recetas />
           </Paper>
         </div>
+        
       </div>
     );
   }
