@@ -43,8 +43,8 @@ class dashboard extends React.Component {
               <Button variant="light">Search</Button>
             </div>
           </div>
+          <h1> Recetas Sugeridas </h1>
           <div id="rec">
-            <h1> Recetas Sugeridas </h1>
             <Recetas />
           </div>
           </div>
