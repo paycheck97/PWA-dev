@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./prueba.css";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import Carousel from "react-bootstrap/Carousel";
 
 class prueba extends Component {
   state = {
-    recetas: []
+    recetas: [],
+    receta_id: null
   };
 
   componentDidMount() {
@@ -17,65 +19,41 @@ class prueba extends Component {
       );
   }
 
+  getID = (id) => {
+    console.log(id)
+    
+  }
+
   render() {
     const { recetas } = this.state;
+    var id = null;
     return (
       <div className="container text-center my-3">
         <div className="row mx-auto my-auto">
-          <div
-            id="myCarousel"
-            className="carousel slide w-100"
-            data-ride="carousel"
-          >
-            <div className="carousel-inner" role="listbox">
+          <div>
+            <Carousel indicators={false}>
               {recetas.map(receta => (
-                <div className="carousel-item py-5 active" key={receta.id}>
-                  <div className="row">
-                    <div className="col-sm-5">
-                      <div className="card">
-                        <img
-                          src={receta.thumbnail}
-                          className="card-img-top"
-                          alt=  {receta.nombre}
-                        />
-                        <div className="card-body">
-                          <h4 className="card-title">{receta.name}</h4>
-                          <p className="card-text">
-                            {receta.instructions}
-                          </p>
-                          <Link To='/Info' className="btn btn-primary">Learn More</Link>
-                          <Link To='/Info' className="btn btn-warning">Favorite</Link>
-                        </div>
-                      </div>
+                <Carousel.Item key={receta.id}>
+                  <div className="card">
+                    <img
+                      className="d-block w-100"
+                      src={receta.thumbnail}
+                      alt={receta.nombre}
+                    />
+                    <div className="card-body">
+                      <h4 className="card-title">{receta.name}</h4>
+                      <p className="card-text">{receta.instructions}</p>
+                      <Link to="/Info" className="btn btn-primary" onClick={this.getID({id})}>
+                        Learn More
+                      </Link>
+                      <Link to="/Info" className="btn btn-warning">
+                        Favorite
+                      </Link>
                     </div>
                   </div>
-                </div>
+                </Carousel.Item>
               ))}
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-12">
-            <a
-              className="carousel-control-prev text-dark"
-              href="#myCarousel"
-              role="button"
-              data-slide="prev"
-            >
-              <span className="fa fa-chevron-left" aria-hidden="true" />
-              <span className="sr-only">Previous</span>
-              <p>Previous</p>
-            </a>
-            <a
-              className="carousel-control-next text-dark"
-              href="#myCarousel"
-              role="button"
-              data-slide="next"
-            >
-              <span className="fa fa-chevron-right" aria-hidden="true" />
-              <span className="sr-only">Next</span>
-              <p>Next</p>
-            </a>
+            </Carousel>
           </div>
         </div>
       </div>
