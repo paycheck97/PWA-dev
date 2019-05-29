@@ -3,7 +3,7 @@ import "./admin.css";
 import PropTypes from "prop-types";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";
-import Recetas from "./recetas";
+import Recetas from "./prueba";
 import Paper from "@material-ui/core/Paper";
 
 
