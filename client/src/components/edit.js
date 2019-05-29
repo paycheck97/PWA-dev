@@ -1,62 +1,58 @@
-import React from "react";
+import React, { Component } from "react";
 import "./edit.css";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
+class edit extends Component {
+  state = {
+    ingredientes: []
+  }
 
+  componentDidMount() {
+    fetch("/ingredients")
+      .then(res => res.json())
+      .then(ingredientes =>
+        this.setState({ ingredientes }, () =>
+          console.log("Fetch realizado", ingredientes)
+        )
+      );
+  }
 
-function edit() {
-    
-  return (
-    <form>
-  <div className="form-row">
-    <div className="form-group col-md-6">
-      <label for="inputEmail4">Nombre Receta</label>
-      <input  className="form-control" id="inputEmail4" placeholder="Nombre"/>
-    </div>
-    <label>Ingredientes</label>
-    <div className="form-group col-md-6">
-    
-    <div className="form-check form-check-inline">
-  <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"/>
-  <label className="form-check-label" for="inlineCheckbox1">Pollo</label>
-</div>
-<div className="form-check form-check-inline">
-  <input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2"/>
-  <label className="form-check-label" for="inlineCheckbox2">Carne</label>
-</div>
-    </div>
-  </div>
-  <div className="form-group col-md-12">
-    <label for="exampleFormControlTextarea1">Forma de Preparar</label>
-    <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-  <div className="form-group">
-    <div className="form-check">
-      <input className="form-check-input" type="checkbox" id="gridCheck"/>
-      <label className="form-check-label" for="gridCheck">
-        Sin Gluten
-      </label>
-    </div>
-    <div className="form-check">
-      <input className="form-check-input" type="checkbox" id="gridCheck"/>
-      <label className="form-check-label" for="gridCheck">
-        Vegana
-      </label>
-    </div>
-    <div className="form-check">
-      <input className="form-check-input" type="checkbox" id="gridCheck"/>
-      <label className="form-check-label" for="gridCheck">
-        Vegetariana
-      </label>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlFile1">Example file input</label>
-    <input type="file" class="form-control-file" id="exampleFormControlFile1"/>
-  </div>
-  <button type="submit" className="btn btn-primary">Submit</button>
-</form>
-
-  );
+  render() {
+    const { ingredientes } = this.state;
+    return (
+      <div>
+        <div id={"form"}>
+          <Form>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label><h3>Nombre Receta</h3></Form.Label>
+              <Form.Control type="email" />
+            </Form.Group>
+            <Form.Label><h3>Ingredientes</h3></Form.Label>
+            <Form.Group controlId="exampleForm.ControlSelect1">
+              {ingredientes.map(ingrediente => 
+                <Form.Check inline label={ingrediente.name} key={ingrediente.id} />
+              )}
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label><h3>Metodo de preparacion</h3></Form.Label>
+              <Form.Control as="textarea" rows="6" />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlSelect2">
+              <Form.Label><h3>Tags</h3></Form.Label>
+              <Form.Control as="select" multiple>
+                <option>Vegana</option>
+                <option>Vegetariana</option>
+                <option>No Gluten</option>
+                <option>Meat Lovers</option>
+              </Form.Control>
+            </Form.Group>
+            <Button variant="secondary" size="lg" block>Submit</Button>
+          </Form>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default edit;

@@ -6,11 +6,8 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-
-
 import MenuAppBar from "./navbar";
-import Recetas from "./recetas";
+import Recetas from "./prueba";
 
 const User = () => {
   const bull = <span>•</span>;
@@ -34,10 +31,10 @@ const User = () => {
           <Button size="small">Edit Username</Button>
         </CardActions>
       </Card>
-      <Paper id="recetas">
+      <div id="recetas">
         <h1> Recetas Favoritas </h1>
         <Recetas />
-      </Paper>
+      </div>
     </>
   );
 };
