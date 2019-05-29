@@ -17,16 +17,24 @@
 #search {
     margin: auto;
     width: 50%;
+    margin-top: 30px;
 }
 
 h2 {
     color: white;
 }
 
+#head {
+    width: 30%;
+    margin: auto;
+}
 
 @media only screen and (max-width: 600px) {
     #rec {
         margin: auto;
         width: 90%;
+    }
+    #head {
+        width: 100%;
     }
 }

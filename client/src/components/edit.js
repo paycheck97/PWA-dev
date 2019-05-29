@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import "./edit.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import MenuAppBar from "./navbar";
-
 class edit extends Component {
   state = {
     ingredientes: []

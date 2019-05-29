@@ -7,6 +7,7 @@ import Recetas from "./recetasuser";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import MenuAppBar from "./navbar";
+import Title from "../img/recetas-sugeridas.png";
 
 const styles = theme => ({
  
@@ -27,7 +28,6 @@ class dashboard extends React.Component {
         <MenuAppBar />
         
         <div className="container2">
-          <h2>SOUS-CHEFF</h2>
           <div>
           {/*<ul>
           {ejemplos.map(ejemplos => 
@@ -43,7 +43,9 @@ class dashboard extends React.Component {
               <Button variant="light">Search</Button>
             </div>
           </div>
-          <h1> Recetas Sugeridas </h1>
+          <div className="jumbotron text-center" id="head">
+            <img src={Title} alt="logo" className="img-fluid align-middle" />
+          </div>
           <div id="rec">
             <Recetas />
           </div>
