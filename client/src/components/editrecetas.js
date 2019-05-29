@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./editarecestas.css";
+import "./editrecetas.css";
 import PropTypes from "prop-types";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";

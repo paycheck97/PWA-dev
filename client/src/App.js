@@ -3,7 +3,7 @@ import "./App.css";
 import Dashboard from "./components/dashboard.js";
 import Info from "./components/info";
 import Admin from "./components/admin";
-import Edit from "./components/editarecetas";
+import Edit from "./components/editrecetas";
 
 // Import the History component to be used below
 
