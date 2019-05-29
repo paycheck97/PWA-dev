@@ -23,23 +23,18 @@ class edit extends Component {
     const { ingredientes } = this.state;
     return (
       <div>
-        <h1>
-              Editar Recetas
+          <MenuAppBar />
+          <h1>
+              Agregar Ingrediente
           </h1>
         <div id={"form"}>
           <Form>
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label><h3>Nombre Receta</h3></Form.Label>
+              <Form.Label><h3>Nombre Ingrediente</h3></Form.Label>
               <Form.Control type="email" />
             </Form.Group>
-            <Form.Label><h3>Ingredientes</h3></Form.Label>
-            <Form.Group controlId="exampleForm.ControlSelect1">
-              {ingredientes.map(ingrediente => 
-                <Form.Check inline label={ingrediente.name} key={ingrediente.id} />
-              )}
-            </Form.Group>
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label><h3>Metodo de preparacion</h3></Form.Label>
+              <Form.Label><h3>Datos Nutricionales</h3></Form.Label>
               <Form.Control as="textarea" rows="6" />
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlSelect2">
