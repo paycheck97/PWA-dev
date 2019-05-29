@@ -23,8 +23,9 @@ class edit extends Component {
     const { ingredientes } = this.state;
     return (
       <div>
-        <h1>
-              Editar Recetas
+          <MenuAppBar />
+          <h1>
+              Agregar Recetas
           </h1>
         <div id={"form"}>
           <Form>

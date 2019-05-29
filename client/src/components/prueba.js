@@ -44,10 +44,7 @@ class prueba extends Component {
                       <h4 className="card-title">{receta.name}</h4>
                       <p className="card-text">{receta.instructions}</p>
                       <Link to="/Info" className="btn btn-primary" onClick={this.getID({id})}>
-                        Learn More
-                      </Link>
-                      <Link to="/Info" className="btn btn-warning">
-                        Favorite
+                        Edit
                       </Link>
                     </div>
                   </div>
