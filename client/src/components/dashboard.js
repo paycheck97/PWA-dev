@@ -3,7 +3,7 @@ import React from "react";
 import "./dashboard.css";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Recetas from "./prueba";
+import Recetas from "./recetasuser";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import MenuAppBar from "./navbar";
