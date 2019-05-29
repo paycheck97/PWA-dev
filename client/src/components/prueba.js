@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./prueba.css";
 import { Link } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
+import { Typography } from "@material-ui/core";
 
 class prueba extends Component {
   state = {
@@ -41,8 +42,10 @@ class prueba extends Component {
                       alt={receta.nombre}
                     />
                     <div className="card-body">
-                      <h4 className="card-title">{receta.name}</h4>
-                      <p className="card-text">{receta.instructions}</p>
+                      <Typography><h4 className="card-title">{receta.name}</h4></Typography>
+                      <Typography>Tiempo de preparacion {receta.prep_time}</Typography>
+                      <Typography>Calorias {receta.calories_ps}</Typography>
+                      <Typography>Servings {receta.servings}</Typography>
                       <Link to="/Info" className="btn btn-primary" onClick={this.getID({id})}>
                         Edit
                       </Link>

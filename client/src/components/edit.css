@@ -1,5 +1,15 @@
+@media only screen and (max-width: 600px) {
+    #form {
+        margin: auto;
+        width: 85%;
+        padding: 10px;
+    }
+}
+
+
 #form {
     margin: auto;
-    width: 85%;
+    width: 60%;
     padding: 10px;
 }
+
