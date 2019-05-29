@@ -49,7 +49,7 @@ class prueba extends Component {
                       <Link to="/Info" className="btn btn-primary" onClick={this.getID({id})}>
                         Learn More
                       </Link>
-                      <Link className="btn btn-primary" onClick={this.getID({id})}>
+                      <Link className="btn btn-warning" onClick={this.getID({id})}>
                         Favorite
                       </Link>
                     </div>
