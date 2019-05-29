@@ -1,11 +1,9 @@
-.banner {
-  margin: 10px;
-  display: flex;
-  height: 50px;
+img {
+  min-height: 100px;
+  max-height: 70%;
 }
 
-.logo {
-  max-height: 100%;
-  width: auto;
-  margin: auto;
+.jumbotron {
+  background-color: #fceae7;
+  height: 25vh;
 }
