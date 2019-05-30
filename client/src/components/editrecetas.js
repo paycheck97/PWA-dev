@@ -3,7 +3,7 @@ import "./editrecetas.css";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Edit from "./edit";
-import MenuAppBar from "./navbar";
+import MenuAppBar from "./navbar_admin";
 
 const styles = theme => ({
   

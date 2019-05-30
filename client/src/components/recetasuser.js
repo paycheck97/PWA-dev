@@ -11,7 +11,7 @@ class prueba extends Component {
   };
 
   componentDidMount() {
-    fetch("/Recipes")
+    fetch("/recipes")
       .then(res => res.json())
       .then(recetas =>
         this.setState({ recetas }, () =>
@@ -20,14 +20,8 @@ class prueba extends Component {
       );
   }
 
-  getID = (id) => {
-    console.log(id)
-    
-  }
-
   render() {
     const { recetas } = this.state;
-    var id = null;
     return (
       <div className="container text-center my-3">
         <div className="row mx-auto my-auto">
@@ -42,14 +36,14 @@ class prueba extends Component {
                       alt={receta.nombre}
                     />
                     <div className="card-body">
-                      <Typography><h4 className="card-title">{receta.name}</h4></Typography>
+                      <Typography variant="h4">{receta.name}</Typography>
                       <Typography>Tiempo de preparacion {receta.prep_time}</Typography>
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
-                      <Link to="/Info" className="btn btn-primary" onClick={this.getID({id})}>
+                      <Link to="/Info" className="btn btn-primary" >
                         Learn More
                       </Link>
-                      <Link className="btn btn-primary" onClick={this.getID({id})}>
+                      <Link to="/Info"className="btn btn-warning" >
                         Favorite
                       </Link>
                     </div>

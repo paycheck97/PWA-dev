@@ -1,52 +1,50 @@
 import React, { Component } from "react";
-import "./edit.css";
+import "./ingred.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import MenuAppBar from "./navbar";
+import MenuAppBar from "./navbar_admin";
+import axios from "axios";
 
 class edit extends Component {
   state = {
-    ingredientes: []
-  }
+    name: "",
+  };
 
-  componentDidMount() {
-    fetch("/ingredients")
-      .then(res => res.json())
-      .then(ingredientes =>
-        this.setState({ ingredientes }, () =>
-          console.log("Fetch realizado", ingredientes)
-        )
-      );
-  }
+  mySubmitHandler = async event => {
+    const { name } = this.state;
+    try {
+      const response = await axios.post("/add-ingredient", {
+        name
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  myChangeHandler = event => {
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({ [nam]: val });
+  };
 
   render() {
-    const { ingredientes } = this.state;
     return (
       <div>
-          <MenuAppBar />
-          <h1>
-              Agregar Ingrediente
-          </h1>
-        <div id={"form"}>
-          <Form>
+        <MenuAppBar />
+        <h1>Agregar Ingrediente</h1>
+        <div id="form">
+          <Form onSubmit={this.mySubmitHandler}>
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label><h3>Nombre Ingrediente</h3></Form.Label>
-              <Form.Control type="email" />
+              <Form.Control
+                type="text"
+                placeholder={"Nombre Ingrediente"}
+                onChange={this.myChangeHandler}
+                name="name"
+              />
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label><h3>Datos Nutricionales</h3></Form.Label>
-              <Form.Control as="textarea" rows="6" />
-            </Form.Group>
-            <Form.Group controlId="exampleForm.ControlSelect2">
-              <Form.Label><h3>Tags</h3></Form.Label>
-              <Form.Control as="select" multiple>
-                <option>Vegana</option>
-                <option>Vegetariana</option>
-                <option>No Gluten</option>
-                <option>Meat Lovers</option>
-              </Form.Control>
-            </Form.Group>
-            <Button variant="secondary" size="lg" block>Submit</Button>
+            <Button variant="secondary" size="md" type="submit" id='boton_in'>
+              Submit
+            </Button>
           </Form>
         </div>
       </div>

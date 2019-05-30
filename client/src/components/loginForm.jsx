@@ -29,7 +29,7 @@ class LoginForm extends Component {
         </div>
         <div className="row">
           <div className="col text-center">
-            <NavLink to="/Dashboard"><button className="btn text-white">Login</button></NavLink>
+            <NavLink to="/Dashboard"><button className="btn text-white" id="boton">Login</button></NavLink>
           </div>
         </div>
         <div className="row">

@@ -32,6 +32,55 @@ router.get("/recipes", async (req, res) => {
         req.flash('success','No se');
     }
 });
+
+router.get('/search-recipes', async(req, res) =>{
+  var {name} = req.body;
+  console.log(name);
+  try{
+      const reci = await pool.query('SELECT * FROM recipe WHERE name LIKE ?% ', [name]);
+      console.log(reci);
+      res.json(reci);
+  }catch(e)
+  {
+      console.log('failure');
+  }
+});
+
+router.post('/add-recipe', async(req, res) =>{
+  const {
+    name,
+    instructions,
+    prep_time,
+    servings, 
+    calories_ps, 
+    thumbnail
+  } = req.body;
+
+  const newRecipe = {
+    name,
+    instructions,
+    prep_time,
+    servings, 
+    calories_ps, 
+    thumbnail
+  }
+  try {
+    await pool.query("INSERT INTO recipe set ?", [newRecipe]);
+  } catch(e){}
+})
+
+router.post('/add-ingredient', async(req, res) =>{
+  const {
+    name,
+  } = req.body;
+
+  const newIngr = {
+    name,
+  }
+  try {
+    await pool.query("INSERT INTO ingredient set ?", [newIngr]);
+  } catch(e){}
+})
   
   module.exports = router;
   

@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";
 import Recetas from "./prueba";
-import Paper from "@material-ui/core/Paper";
+import Title from "../img/Admin.png";
+import subTitle from "../img/Recetas.png";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 
 
-
-import MenuAppBar from "./navbar";
+import MenuAppBar from "./navbar_admin";
 
 const styles = theme => ({
   root: {
@@ -121,33 +121,32 @@ class dashboard extends Component {
   }
   
   render() {
-    var id = null;
+    //var id = null;
     return (
 
       <div className="supercontainer">
         <MenuAppBar />
+        <div className="jumbotron text-center" id="head">
+        <img src={Title} alt="logo" className="img-fluid align-middle" />
+        </div>
         <div className="container2">
-          <h2>SOUS-CHEFF</h2>
           <div>
             <div id="search">
-              <form className="pure-form">
-                <input type="text" className="pure-input" />
-                <button type="submit" className="pure-button">
+              <Form className="pure-form">
+                <Form.Control placeholder="Look up"></Form.Control>
+                
+              </Form>
+              <Button type="submit" className="btn btn-secondary">
                   Search
-                </button>
-              </form>
+                </Button>
             </div>
-            <Link to="/Agregar" className="btn btn-primary" onClick={this.getID({id})}>
-                        Agregar Recetas
-                      </Link>
-                      <Link to="/Ingredientes" className="btn btn-primary" onClick={this.getID({id})}>
-                        Agregar Ingredientes
-                      </Link>
           </div>
-          <Paper id="rec">
-            <h1> Recetas Existentes </h1>
+          <div className="jumbotron text-center" id="head">
+          <img src={subTitle} alt="logo" className="img-fluid align-middle" />
+          </div>
+          <div id="rec">
             <Recetas />
-          </Paper>
+          </div>
         </div>
         
       </div>

@@ -2,12 +2,49 @@ import React, { Component } from "react";
 import "./edit.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import MenuAppBar from "./navbar";
+import MenuAppBar from "./navbar_admin";
+import axios from "axios";
 
 class edit extends Component {
   state = {
-    ingredientes: []
-  }
+    ingredientes: [],
+    name: "",
+    ingre_selec: [],
+    instructions: "",
+    prep_time: "",
+    servings: "",
+    calories_ps: "",
+    thumbnail: ""
+  };
+  mySubmitHandler = async event => {
+    const {
+      name,
+      instructions,
+      prep_time,
+      servings,
+      calories_ps,
+      thumbnail
+    } = this.state;
+    try {
+      const response = await axios.post("/add-recipe", {
+        name,
+        instructions,
+        prep_time,
+        servings,
+        calories_ps,
+        thumbnail
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+    alert(this.state.nombre + this.state.metodo);
+  };
+  myChangeHandler = event => {
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({ [nam]: val });
+  };
 
   componentDidMount() {
     fetch("/ingredients")
@@ -23,28 +60,84 @@ class edit extends Component {
     const { ingredientes } = this.state;
     return (
       <div>
-          <MenuAppBar />
-          <h1>
-              Agregar Recetas
-          </h1>
+        <MenuAppBar />
+        <h1>Agregar Recetas</h1>
         <div id={"form"}>
-          <Form>
+          <Form onSubmit={this.mySubmitHandler}>
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label><h3>Nombre Receta</h3></Form.Label>
-              <Form.Control type="email" />
+              <Form.Label>
+                <h3>{this.state.nombre}</h3>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={"Nombre Receta"}
+                onChange={this.myChangeHandler}
+                name="name"
+              />
             </Form.Group>
-            <Form.Label><h3>Ingredientes</h3></Form.Label>
+            <Form.Label>
+              <h3>Ingredientes</h3>
+            </Form.Label>
+            {this.state.ingre_selec}
             <Form.Group controlId="exampleForm.ControlSelect1">
-              {ingredientes.map(ingrediente => 
-                <Form.Check inline label={ingrediente.name} key={ingrediente.id} />
-              )}
+              {ingredientes.map(ingrediente => (
+                <Form.Check
+                  inline
+                  label={ingrediente.name}
+                  key={ingrediente.id}
+                  onChange={this.myChangeHandler}
+                  value={ingrediente.name}
+                  name="ingre_select"
+                />
+              ))}
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label><h3>Metodo de preparacion</h3></Form.Label>
-              <Form.Control as="textarea" rows="6" />
+              <Form.Label>
+                <h3>Metodo de preparacion</h3>
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                rows="6"
+                name="instructions"
+                onChange={this.myChangeHandler}
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="text"
+                placeholder={"Tiempo de Preparacion"}
+                onChange={this.myChangeHandler}
+                name="prep_time"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="number"
+                placeholder={"Porciones"}
+                onChange={this.myChangeHandler}
+                name="servings"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="number"
+                placeholder={"Calorias"}
+                onChange={this.myChangeHandler}
+                name="calories_ps"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="text"
+                placeholder={"Foto URL"}
+                onChange={this.myChangeHandler}
+                name="thumbnail"
+              />
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlSelect2">
-              <Form.Label><h3>Tags</h3></Form.Label>
+              <Form.Label>
+                <h3>Tags</h3>
+              </Form.Label>
               <Form.Control as="select" multiple>
                 <option>Vegana</option>
                 <option>Vegetariana</option>
@@ -52,7 +145,9 @@ class edit extends Component {
                 <option>Meat Lovers</option>
               </Form.Control>
             </Form.Group>
-            <Button variant="secondary" size="lg" block>Submit</Button>
+            <Button variant="secondary" size="lg" block type="submit">
+              Submit
+            </Button>
           </Form>
         </div>
       </div>
