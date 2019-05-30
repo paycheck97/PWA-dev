@@ -11,6 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { NavLink } from 'react-router-dom'
 
 
 
@@ -28,7 +29,7 @@ const styles = {
 };
 
 function ListItemLink(props) {
-    return <ListItem button component="a" {...props} />;
+    return <ListItem button  {...props} />;
   }
 class MenuAppBar extends React.Component {
   state = {
@@ -89,15 +90,15 @@ class MenuAppBar extends React.Component {
                   onClose={this.handleClose}
                 >
                     <List component="nav">
-                        <ListItemLink href="/Dashboard">
+                        <NavLink to="/Dashboard"><ListItemLink>
                             <ListItemText primary="Home" />
-                        </ListItemLink>
-                        <ListItemLink href="/User">
+                        </ListItemLink></NavLink>
+                        <NavLink to="/User"><ListItemLink>
                             <ListItemText primary="Profile" />
-                        </ListItemLink>
-                        <ListItemLink  href="/">
+                        </ListItemLink></NavLink>
+                        <NavLink to="/"><ListItemLink>
                             <ListItemText primary="Logout" />
-                        </ListItemLink>
+                        </ListItemLink></NavLink>
                     </List>
                 </Menu>
               </div>

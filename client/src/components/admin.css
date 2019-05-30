@@ -1,0 +1,24 @@
+.btn{
+    overflow: hidden;
+    margin-bottom: 15px;
+    margin-top: 15px
+}
+.h1{
+    padding: 15px;
+    margin: 20px
+}
+
+#head {
+    width: 30%;
+    margin: auto;
+}
+
+
+@media only screen and (max-width: 600px) {
+    #head {
+        width: 100%;
+    }
+    #search{
+        width: 90%;
+    }
+}

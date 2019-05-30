@@ -1,0 +1,28 @@
+.carousel-item-prev,
+.carousel-item-next,
+.carousel-item.active {
+
+    align-content: center;
+
+}
+
+
+/* control image height */
+img {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+/* smoother transitions */
+.carousel-inner>.carousel-item.next.left,
+.carousel-inner>.carousel-item.prev.right
+{
+    transition: all 1s ease;
+}
+.a{
+    padding: 5px
+}
+.btn{
+    margin: 5px
+}
