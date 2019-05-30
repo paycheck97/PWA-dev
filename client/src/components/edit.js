@@ -7,6 +7,12 @@ class edit extends Component {
     ingredientes: []
   }
 
+  myChangeHandler = async event => {
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({ [nam]: val });
+  };
+
   componentDidMount() {
     fetch("/ingredients")
       .then(res => res.json())
