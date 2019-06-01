@@ -8,6 +8,7 @@ import Title from "../img/Admin.png";
 import subTitle from "../img/Recetas.png";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 
 
 import MenuAppBar from "./navbar_admin";
@@ -121,7 +122,7 @@ class dashboard extends Component {
   }
   
   render() {
-    //var id = null;
+    var id = null;
     return (
 
       <div className="supercontainer">
@@ -144,6 +145,12 @@ class dashboard extends Component {
           <div className="jumbotron text-center" id="head">
           <img src={subTitle} alt="logo" className="img-fluid align-middle" />
           </div>
+          <Link to="/Agregar" className="btn btn-primary" onClick={this.getID({id})}>
+                        Add Receta
+                      </Link>
+                      <Link to="/Ingredientes" className="btn btn-primary" onClick={this.getID({id})}>
+                        Add Ingredient
+                      </Link>
           <div id="rec">
             <Recetas />
           </div>
