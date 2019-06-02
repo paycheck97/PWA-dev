@@ -20,17 +20,16 @@ class dashboard extends React.Component {
     search_recipes: [],
   };
   mySubmitHandler = async event => {
-   
     const { name } = this.state;
+    console.log(name)
+
     try {
-      axios.get("/search-recipes", {
-        name
-      }).then(res => {
+      const response = axios.post("/search-recipes",{name}).then(res => {
         const search_recipes = res.data;
         this.setState({ search_recipes });
         console.log(this.state.search_recipes)
       });
-      console.log();
+      console.log(response);
     } catch (err) {
       console.log(err);
     }
@@ -47,7 +46,7 @@ class dashboard extends React.Component {
     return (
       <div className="supercontainer">
         <MenuAppBar />
-        {this.state.name}
+        {this.state.search_recipes}
         <div className="container2">
           <div>
             <Form id="search" onSubmit={this.mySubmitHandler}>

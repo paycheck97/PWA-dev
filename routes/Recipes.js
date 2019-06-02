@@ -33,11 +33,13 @@ router.get("/recipes", async (req, res) => {
     }
 });
 
-router.get('/search-recipes', async(req, res) =>{
+router.post('/search-recipes', async(req, res) =>{
   var {name} = req.body;
+  name = name.concat('%');
   console.log(name);
   try{
-      const reci = await pool.query('SELECT * FROM recipe WHERE name LIKE ?% ', [name]);
+      const reci = await pool.query('SELECT * FROM recipe WHERE name LIKE ? ', [name]);
+      console.log('hey');
       console.log(reci);
       res.json(reci);
   }catch(e)
