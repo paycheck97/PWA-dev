@@ -41,6 +41,10 @@ class dashboard extends React.Component {
     this.setState({ [nam]: val });
   };
 
+  componentDidUpdate(prevState){
+    this.setState.search_recipes = this.state.search_recipes.current;
+  }
+
   render() {
     const { search_recipes } = this.state;
     return (

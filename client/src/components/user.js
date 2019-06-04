@@ -37,8 +37,8 @@ const User = () => {
         </Card>
         </Col>
         <Col xl={8} sm={12}>
-          <Typography>
-          <h1> Recetas Favoritas </h1>
+          <Typography variant="h4">
+            Recetas Favoritas
           </Typography>
         <div id="recetas">
           <Recetas />
