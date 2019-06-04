@@ -6,6 +6,7 @@ import Recetas from "./recetasuser";
 import Button from "react-bootstrap/Button";
 import { Typography } from "@material-ui/core";
 import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
 import MenuAppBar from "./navbar";
 import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
@@ -16,24 +17,27 @@ const styles = theme => ({});
 class dashboard extends React.Component {
   state = {
     recetas: [],
-    name: '',
-    search_recipes: [],
+    name: "",
+    filers: [],
+    search_recipes: []
   };
   mySubmitHandler = async event => {
     const { name } = this.state;
-    console.log(name)
 
+    console.log(name);
+    event.preventDefault();
     try {
-      const response = axios.post("/search-recipes",{name}).then(res => {
+      const response = axios.post("/search-recipes", { name }).then(res => {
         const search_recipes = res.data;
         this.setState({ search_recipes });
-        console.log(this.state.search_recipes)
+        console.log(this.state.search_recipes);
       });
       console.log(response);
     } catch (err) {
       console.log(err);
     }
-    console.log('hola');
+    //this.setState({ filters: this.state.filters.concat([name]) });
+    //console.log(filters);
   };
   myChangeHandler = async event => {
     let nam = event.target.name;
@@ -41,16 +45,11 @@ class dashboard extends React.Component {
     this.setState({ [nam]: val });
   };
 
-  componentDidUpdate(prevState){
-    this.setState.search_recipes = this.state.search_recipes.current;
-  }
-
   render() {
     const { search_recipes } = this.state;
     return (
       <div className="supercontainer">
         <MenuAppBar />
-        {this.state.search_recipes}
         <div className="container2">
           <div>
             <Form id="search" onSubmit={this.mySubmitHandler}>
@@ -62,31 +61,41 @@ class dashboard extends React.Component {
                   name="name"
                 />
               </Form.Group>
-              <Button variant="light" type="submit">Search</Button>
+              <Button variant="light" type="submit">
+                Search
+              </Button>
             </Form>
           </div>
           <div>
-          {search_recipes.map(search_recipe => (
-                  <div className="card"key={search_recipe.id}>
-                    <img
-                      className="d-block w-100"
-                      src={search_recipe.thumbnail}
-                      alt={search_recipe.nombre}
-                    />
-                    <div className="card-body">
-                      <Typography><h4 className="card-title">{search_recipe.name}</h4></Typography>
-                      <Typography>Tiempo de preparacion {search_recipe.prep_time}</Typography>
-                      <Typography>Calorias {search_recipe.calories_ps}</Typography>
-                      <Typography>Servings {search_recipe.servings}</Typography>
-                      <Link to="/Info" className="btn btn-primary" >
-                        Learn More
-                      </Link>
-                      <Link className="btn btn-warning">
-                        Favorite
-                      </Link>
-                    </div>
+            {search_recipes.map(search_recipe => (
+              <Col lg="4"  key={search_recipe.id}>
+                <div className="card">
+                  <img
+                    className="d-block w-100"
+                    src={search_recipe.thumbnail}
+                    alt={search_recipe.nombre}
+                  />
+                  <div className="card-body">
+                    <Typography className="card-title">
+                      {search_recipe.name}
+                    </Typography>
+                    <Typography>
+                      Tiempo de preparacion {search_recipe.prep_time}
+                    </Typography>
+                    <Typography>
+                      Calorias {search_recipe.calories_ps}
+                    </Typography>
+                    <Typography>Servings {search_recipe.servings}</Typography>
+                    <Link to="/Info" className="btn btn-primary">
+                      Learn More
+                    </Link>
+                    <Link to="/Info" className="btn btn-warning">
+                      Favorite
+                    </Link>
                   </div>
-              ))}
+                </div>
+              </Col>
+            ))}
           </div>
           <div className="jumbotron text-center" id="head">
             <img src={Title} alt="logo" className="img-fluid align-middle" />
