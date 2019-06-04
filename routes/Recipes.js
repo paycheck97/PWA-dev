@@ -39,7 +39,6 @@ router.post('/search-recipes', async(req, res) =>{
   console.log(name);
   try{
       const reci = await pool.query('SELECT * FROM recipe WHERE name LIKE ? ', [name]);
-      console.log('hey');
       console.log(reci);
       res.json(reci);
   }catch(e)
