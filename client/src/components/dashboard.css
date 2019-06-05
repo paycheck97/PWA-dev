@@ -38,3 +38,7 @@ h2 {
         width: 100%;
     }
 }
+#button_selected {
+    background-color: #85144b;
+    border-color: #85144b;
+}
