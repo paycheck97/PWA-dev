@@ -37,13 +37,15 @@ class prueba extends Component {
                     />
                     <div className="card-body">
                       <Typography variant="h4">{receta.name}</Typography>
-                      <Typography>Tiempo de preparacion {receta.prep_time}</Typography>
+                      <Typography>
+                        Tiempo de preparacion {receta.prep_time}
+                      </Typography>
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
-                      <Link to="/Info" className="btn btn-primary" >
+                      <Link to="/Info" className="btn btn-primary">
                         Learn More
                       </Link>
-                      <Link to="/Info"className="btn btn-warning" >
+                      <Link to="/Info" className="btn btn-warning">
                         Favorite
                       </Link>
                     </div>
