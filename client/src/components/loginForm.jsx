@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./loginForm.css";
-import { NavLink } from "react-router-dom";
+import {NavLink} from 'react-router-dom';
 
 class LoginForm extends Component {
   render() {
@@ -29,23 +29,12 @@ class LoginForm extends Component {
         </div>
         <div className="row">
           <div className="col text-center">
-            <NavLink to="/Dashboard">
-              <button className="btn text-white" id="boton">
-                Login
-              </button>
-            </NavLink>
+            <NavLink to="/Dashboard"><button className="btn text-white" id="boton">Login</button></NavLink>
           </div>
         </div>
         <div className="row">
           <div className="col text-center">
             <small className="text-center">Forggot Password?</small>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col text-center">
-            <small className="text-center" onClick={this.props.action}>
-              Go Back
-            </small>
           </div>
         </div>
       </div>
