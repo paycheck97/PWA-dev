@@ -14,6 +14,7 @@ import MenuAppBar from "./navbar";
 import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Bin from '../img/bin-2.png'
 
 const styles = theme => ({});
 
@@ -36,9 +37,27 @@ class dashboard extends React.Component {
 
   mySubmitHandler = async event => {
     const { name, filters } = this.state;
-
     console.log(name);
     event.preventDefault();
+    try {
+      const response = axios
+        .post("/search-recipes", { filters, name })
+        .then(res => {
+          const search_recipes = res.data;
+          this.setState({ search_recipes });
+          console.log(this.state.search_recipes);
+        });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  mySubmitHandler_ingr = async event => {
+    event.preventDefault();
+    const { filters, name } = this.state;
+    console.log(name);
+    this.setState({ filters: this.state.filters.concat(name) });
+    console.log(this.state.filters);
     try {
       const response = axios
         .post("/search-recipes", { filters, name })
@@ -61,7 +80,7 @@ class dashboard extends React.Component {
   };
 
   render() {
-    const { search_recipes, porIngrediente } = this.state;
+    const { search_recipes, porIngrediente, filters } = this.state;
     let search;
     if (!porIngrediente) {
       search = (
@@ -84,21 +103,24 @@ class dashboard extends React.Component {
     } else {
       search = (
         <div>
-            <Form id="search" onSubmit={this.mySubmitHandler}>
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Control
-                  type="text"
-                  placeholder="Choose by Ingredient"
-                  onChange={this.myChangeHandler}
-                  name="name"
-                />
-              </Form.Group>
-              <Button variant="light" type="submit">
-                Search
-              </Button>
-            </Form>
-          </div>
-      )
+          {filters.map(filter => (
+            <button id="filtros" key={filter}>{filter} <Bin></Bin> </button>
+          ))}
+          <Form id="search" onSubmit={this.mySubmitHandler_ingr}>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="text"
+                placeholder="Choose by Ingredient"
+                onChange={this.myChangeHandler}
+                name="name"
+              />
+            </Form.Group>
+            <Button variant="light" type="submit">
+              Search
+            </Button>
+          </Form>
+        </div>
+      );
     }
 
     return (
