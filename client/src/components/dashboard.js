@@ -14,6 +14,7 @@ import MenuAppBar from "./navbar";
 import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Bin from '../img/bin-2.png'
 
 const styles = theme => ({});
 
@@ -79,7 +80,7 @@ class dashboard extends React.Component {
   };
 
   render() {
-    const { search_recipes, porIngrediente } = this.state;
+    const { search_recipes, porIngrediente, filters } = this.state;
     let search;
     if (!porIngrediente) {
       search = (
@@ -102,6 +103,9 @@ class dashboard extends React.Component {
     } else {
       search = (
         <div>
+          {filters.map(filter => (
+            <button id="filtros" key={filter}>{filter} <Bin></Bin> </button>
+          ))}
           <Form id="search" onSubmit={this.mySubmitHandler_ingr}>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Control
