@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import "./loginForm.css";
 import { NavLink } from "react-router-dom";
 
-class LoginForm extends Component {
+class Register extends Component {
   render() {
     return (
       <div className="container">
@@ -24,6 +23,13 @@ class LoginForm extends Component {
                   placeholder="Password"
                 />
               </div>
+              <div className="form-group">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Confirm Password"
+                />
+              </div>
             </form>
           </div>
         </div>
@@ -31,14 +37,9 @@ class LoginForm extends Component {
           <div className="col text-center">
             <NavLink to="/Dashboard">
               <button className="btn text-white" id="boton">
-                Login
+                Register
               </button>
             </NavLink>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col text-center">
-            <small className="text-center">Forggot Password?</small>
           </div>
         </div>
         <div className="row">
@@ -53,4 +54,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default Register;
