@@ -1,7 +1,11 @@
 img {
   min-height: 100px;
   max-height: 70%;
+<<<<<<< HEAD
   width: auto;
+=======
+  width: auto
+>>>>>>> master
 }
 
 .jumbotron {

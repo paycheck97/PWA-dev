@@ -172,13 +172,14 @@ class dashboard extends React.Component {
                         Calorias {search_recipe.calories_ps}
                       </Typography>
                       <Typography>Servings {search_recipe.servings}</Typography>
-                      <Link to="/Info" className="btn btn-primary">
+                      <Link to={`Info/${search_recipe.id}`} className="btn btn-primary">
                         Learn More
                       </Link>
-                      <Link to="/Info" className="btn btn-warning">
+                      <Link to={`Info/${search_recipe.id}`} className="btn btn-warning">
                         Favorite
                       </Link>
                     </div>
+                    
                   </div>
                 </Col>
               ))}
