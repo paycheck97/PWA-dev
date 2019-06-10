@@ -1,6 +1,7 @@
 img {
   min-height: 100px;
   max-height: 70%;
+  width: auto
 }
 
 .jumbotron {
