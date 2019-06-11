@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const bcrypt = require("bcrypt");
 const pool = require("../database");
 
 router.get("/recipes", async (req, res) => {
@@ -47,7 +47,7 @@ router.post("/search-recipes", async (req, res) => {
     console.log("failure");
   }
 });
-
+//Agregar Receta
 router.post("/add-recipe", async (req, res) => {
   const {
     name,
@@ -69,6 +69,35 @@ router.post("/add-recipe", async (req, res) => {
   try {
     await pool.query("INSERT INTO recipe set ?", [newRecipe]);
   } catch (e) {}
+});
+//Regitro de Usuario
+router.post("/register", async (req, res) => {
+  const { email, name, last_name, password } = req.body;
+
+  const newUser = {
+    email,
+    name,
+    last_name,
+    password
+  };
+  try {
+    console.log("hola");
+    const check = await pool.query("SELECT * FROM user WHERE email = ?", [
+      email
+    ]);
+    console.log(check);
+    if (check.length > 0) {
+      res.send("Existe un usuario con ese correo");
+      console.log("fail");
+    } else {
+      const hash = bcrypt.hashSync(newUser.password, 10);
+      newUser.password = hash;
+      await pool.query("INSERT INTO user set ?", [newUser]);
+      console.log("success");
+    }
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 router.post("/add-ingredient", async (req, res) => {
