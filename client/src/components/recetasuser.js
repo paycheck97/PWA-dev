@@ -42,10 +42,10 @@ class prueba extends Component {
                       </Typography>
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
-                      <Link to="/Info" className="btn btn-primary">
+                      <Link to={`Info/${receta.id}`} className="btn btn-primary">
                         Learn More
                       </Link>
-                      <Link to="/Info" className="btn btn-warning">
+                      <Link to={`Info/${receta.id}`} className="btn btn-warning">
                         Favorite
                       </Link>
                     </div>
