@@ -13,6 +13,7 @@ router.get("/recipes", async (req, res) => {
   }
 });
 
+
 router.get("/ingredients", async (req, res) => {
   try {
     const ingredientes = await pool.query("SELECT * FROM ingredient");
@@ -72,6 +73,28 @@ router.post("/add-recipe", async (req, res) => {
   } catch (e) {}
 });
 
+router.post("/update-recipe/:id", async (req, res) => {
+  const {id}= req.props.match.params;
+  const {
+    name,
+    instructions,
+    prep_time,
+    servings,
+    calories_ps,
+    thumbnail
+  } = req.body;
+  
+  const updateRecipe = {
+    name,
+    instructions,
+    prep_time,
+    servings,
+    calories_ps,
+    thumbnail
+  };
+  try {
+    await pool.query("UPDATE recipe set ? WHERE id = ?", [updateRecipe, id]);
+  } catch (e) {}
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const verify = {
