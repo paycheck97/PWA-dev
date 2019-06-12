@@ -2,61 +2,124 @@ import React, { Component } from "react";
 import "./edit.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import MenuAppBar from "./navbar_admin";
+import axios from "axios";
+
+
 class edit extends Component {
   state = {
-    ingredientes: []
+    recetas: [],
+    receta_id: null,
+    expanded: false ,
+    name: "",
+    instructions: "",
+    prep_time: "",
+    servings: "",
+    calories_ps: "",
+    thumbnail: ""
   }
 
+mySubmitHandler = async event => {
+  const {
+    name,
+    instructions,
+    prep_time,
+    servings,
+    calories_ps,
+    thumbnail
+  } = this.state;
+  try {
+    const response = await axios.post(`/update-recipe/${this.props.match.params.id}`, {
+      name,
+      instructions,
+      prep_time,
+      servings,
+      calories_ps,
+      thumbnail
+    });
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+  }
+  alert(this.state.nombre + this.state.metodo);
+};
   myChangeHandler = async event => {
     let nam = event.target.name;
     let val = event.target.value;
     this.setState({ [nam]: val });
   };
 
+  
   componentDidMount() {
-    fetch("/ingredients")
-      .then(res => res.json())
-      .then(ingredientes =>
-        this.setState({ ingredientes }, () =>
-          console.log("Fetch realizado", ingredientes)
-        )
-      );
-  }
+    fetch( `/view-recipe/${this.props.match.params.id}`)
+    .then(res => res.json())
+    .then(recetas =>
+      this.setState({ recetas }, () =>
+        console.log("Fetch realizado", recetas)
+      )
+    );
+}
 
   render() {
-    const { ingredientes } = this.state;
+    const {  recetas } = this.state;
     return (
       <div>
+        <MenuAppBar />
         <h1>
               Editar Recetas
           </h1>
         <div id={"form"}>
+        {recetas.map(receta =>(
           <Form>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label><h3>Nombre Receta</h3></Form.Label>
-              <Form.Control type="email" />
-            </Form.Group>
-            <Form.Label><h3>Ingredientes</h3></Form.Label>
-            <Form.Group controlId="exampleForm.ControlSelect1">
-              {ingredientes.map(ingrediente => 
-                <Form.Check inline label={ingrediente.name} key={ingrediente.id} />
-              )}
+              <Form.Control type="text" defaultValue={receta.name} name="name"
+                onChange={this.myChangeHandler}/>
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label><h3>Metodo de preparacion</h3></Form.Label>
-              <Form.Control as="textarea" rows="6" />
+              <Form.Control as="textarea" rows="6" defaultValue={receta.instructions} name="instructions"
+                onChange={this.myChangeHandler}/>
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlSelect2">
-              <Form.Label><h3>Tags</h3></Form.Label>
-              <Form.Control as="select" multiple>
-                <option>Vegana</option>
-                <option>Vegetariana</option>
-                <option>No Gluten</option>
-                <option>Meat Lovers</option>
-              </Form.Control>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label><h3>Tiempo de preparacion</h3></Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={receta.prep_time}
+                onChange={this.myChangeHandler}
+                name="prep_time"
+              />
             </Form.Group>
-            <Button variant="secondary" size="lg" block>Submit</Button>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label><h3>Porciones</h3></Form.Label>
+              <Form.Control
+                defaultValue={receta.servings}
+                type="number"
+                onChange={this.myChangeHandler}
+                name="servings"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label><h3>Calorias</h3></Form.Label>
+              <Form.Control
+              defaultValue={receta.calories_ps}
+                type="number"
+                onChange={this.myChangeHandler}
+                name="calories_ps"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label><h3>Foto</h3></Form.Label>
+            <Form.Control
+              defaultValue={receta.thumbnail}
+                type="text"
+                onChange={this.myChangeHandler}
+                name="thumbnail"
+              />
+            </Form.Group>
+            <Button variant="secondary" size="lg" block type="submit">Submit</Button>
           </Form>
+          ))}
         </div>
       </div>
     );
