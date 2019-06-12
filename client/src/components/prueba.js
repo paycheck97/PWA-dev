@@ -3,7 +3,6 @@ import "./prueba.css";
 import { Link } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import { Typography } from "@material-ui/core";
-import {Consumer} from './context';
 
 class prueba extends Component {
   state = {
@@ -12,7 +11,7 @@ class prueba extends Component {
   };
 
   componentDidMount() {
-    fetch("/Recipes")
+    fetch("/recipes")
       .then(res => res.json())
       .then(recetas =>
         this.setState({ recetas }, () =>

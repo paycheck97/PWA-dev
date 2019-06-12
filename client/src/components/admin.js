@@ -8,9 +8,6 @@ import Title from "../img/Admin.png";
 import subTitle from "../img/Recetas.png";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-
-
-
 import MenuAppBar from "./navbar_admin";
 
 const styles = theme => ({
@@ -93,11 +90,22 @@ const styles = theme => ({
   }
 });
 
-class dashboard extends Component {
+class admin extends Component {
   state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null
+    mobileMoreAnchorEl: null,
+    recetas:[],
   };
+
+  componentDidMount() {
+    fetch("/Recipes")
+      .then(res => res.json())
+      .then(recetas =>
+        this.setState({ recetas }, () =>
+          console.log("Fetch realizado", recetas)
+        )
+      );
+  }
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -122,9 +130,9 @@ class dashboard extends Component {
   }
   
   render() {
-    var id = null;
+   
     return (
-
+      
       <div className="supercontainer">
         <MenuAppBar />
         <div className="jumbotron text-center" id="head">
@@ -154,8 +162,8 @@ class dashboard extends Component {
     );
   }
 }
-dashboard.propTypes = {
+admin.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(dashboard);
+export default withStyles(styles)(admin);
