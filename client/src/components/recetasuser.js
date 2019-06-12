@@ -23,9 +23,9 @@ class prueba extends Component {
   render() {
     const { recetas } = this.state;
     return (
-      <div className="container text-center my-3">
+      <div className="container text-center">
         <div className="row mx-auto my-auto">
-          <div>
+          <div className="col text-center">
             <Carousel indicators={false}>
               {recetas.map(receta => (
                 <Carousel.Item key={receta.id}>
@@ -42,10 +42,16 @@ class prueba extends Component {
                       </Typography>
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
-                      <Link to={`Info/${receta.id}`} className="btn btn-primary">
+                      <Link
+                        to={`Info/${receta.id}`}
+                        className="btn btn-primary"
+                      >
                         Learn More
                       </Link>
-                      <Link to={`Info/${receta.id}`} className="btn btn-warning">
+                      <Link
+                        to={`Info/${receta.id}`}
+                        className="btn btn-warning"
+                      >
                         Favorite
                       </Link>
                     </div>
