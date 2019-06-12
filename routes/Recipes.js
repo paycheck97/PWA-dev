@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-
+const bcrypt = require("bcrypt");
 const pool = require("../database");
+const jwt = require("jsonwebtoken");
 
 router.get("/recipes", async (req, res) => {
   try {
@@ -48,7 +49,7 @@ router.post("/search-recipes", async (req, res) => {
     console.log("failure");
   }
 });
-
+//Agregar Receta
 router.post("/add-recipe", async (req, res) => {
   const {
     name,
@@ -94,6 +95,64 @@ router.post("/update-recipe/:id", async (req, res) => {
   try {
     await pool.query("UPDATE recipe set ? WHERE id = ?", [updateRecipe, id]);
   } catch (e) {}
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const verify = {
+    email,
+    password
+  };
+  console.log(verify.email);
+  console.log(verify.password);
+  try {
+    const check = await pool.query("SELECT * FROM user WHERE email = ?", [
+      email
+    ]);
+    console.log(check[0]['password']);
+    if (check.length > 0) {
+      if(bcrypt.compareSync(verify.password, check[0]['password'])){
+        console.log('success');
+        res.json(true);
+
+      }else{
+        console.log('success/fail');
+        res.json(false);
+      }
+      
+    } else {
+      res.send("Existe un usuario con ese correo");
+      console.log("fail");
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+//Regitro de Usuario
+router.post("/register", async (req, res) => {
+  const { email, name, last_name, password } = req.body;
+
+  const newUser = {
+    email,
+    name,
+    last_name,
+    password
+  };
+  try {
+    const check = await pool.query("SELECT * FROM user WHERE email = ?", [
+      email
+    ]);
+    if (check.length > 0) {
+      res.send("Existe un usuario con ese correo");
+      console.log("fail");
+    } else {
+      const hash = bcrypt.hashSync(newUser.password, 10);
+      newUser.password = hash;
+      await pool.query("INSERT INTO user set ?", [newUser]);
+      console.log("success");
+    }
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 router.post("/add-ingredient", async (req, res) => {
