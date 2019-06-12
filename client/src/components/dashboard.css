@@ -1,49 +1,53 @@
-.par{
-    color: beige
+.img {
+  max-width: 100px;
+  height: auto;
 }
-.container{
-    border-color: blue
+
+.par {
+  color: beige;
 }
-.container2{
-    text-align: center;
-    
+.container {
+  border-color: blue;
+}
+.container2 {
+  text-align: center;
 }
 
 #rec {
-    margin: auto;
-    width:50%;
-    margin-top: 50px;
+  margin: auto;
+  width: 50%;
+  margin-top: 50px;
 }
 #search {
-    margin: auto;
-    width: 50%;
-    margin-top: 30px;
+  margin: auto;
+  width: 50%;
+  margin-top: 30px;
 }
 
 h2 {
-    color: white;
+  color: white;
 }
 
 #head {
-    width: 30%;
-    margin: auto;
+  width: 30%;
+  margin: auto;
 }
 
 @media only screen and (max-width: 600px) {
-    #rec {
-        margin: auto;
-        width: 90%;
-    }
-    #head {
-        width: 100%;
-    }
+  #rec {
+    margin: auto;
+    width: 90%;
+  }
+  #head {
+    width: 100%;
+  }
 }
 #button_selected {
-    background-color: #85144b;
-    border-color: #85144b;
+  background-color: #85144b;
+  border-color: #85144b;
 }
 
 #filtros {
-    margin-top: 5px;
-    background-color: #AAAAAA;
+  margin-top: 5px;
+  background-color: #aaaaaa;
 }

@@ -1,28 +1,23 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "./register.css";
 
 class Register extends Component {
   state = {
-    email: '',
-    name: '',
-    last_name: '',
-    password: '',
-
-  }
+    email: "",
+    name: "",
+    last_name: "",
+    password: ""
+  };
 
   mySubmitHandler = async event => {
-    const {
-      email,
-      name,
-      last_name,
-      password,
-    } = this.state;
+    const { email, name, last_name, password } = this.state;
     try {
       const response = await axios.post("/register", {
         email,
         name,
         last_name,
-        password,
+        password
       });
       console.log(response);
     } catch (err) {
@@ -39,7 +34,7 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container" id="registerCont">
         <div className="row justify-content-center">
           <div className="col-10">
             <form onSubmit={this.mySubmitHandler}>
@@ -49,7 +44,7 @@ class Register extends Component {
                   className="form-control"
                   id="exampleInputEmail1"
                   placeholder="Enter Email"
-                  name = "email"
+                  name="email"
                   onChange={this.myChangeHandler}
                 />
               </div>
@@ -59,9 +54,9 @@ class Register extends Component {
                   className="form-control"
                   id="exampleInputEmail1"
                   placeholder="Enter First Name"
-                  name = "name"     
-                  onChange={this.myChangeHandler} 
-                           />
+                  name="name"
+                  onChange={this.myChangeHandler}
+                />
               </div>
               <div className="form-group ">
                 <input
@@ -69,7 +64,7 @@ class Register extends Component {
                   className="form-control"
                   id="exampleInputEmail1"
                   placeholder="Enter Last Name"
-                  name = "last_name"
+                  name="last_name"
                   onChange={this.myChangeHandler}
                 />
               </div>
@@ -78,7 +73,7 @@ class Register extends Component {
                   type="password"
                   className="form-control"
                   placeholder="Password"
-                  name = "password"
+                  name="password"
                   onChange={this.myChangeHandler}
                 />
               </div>
@@ -87,15 +82,15 @@ class Register extends Component {
                   type="password"
                   className="form-control"
                   placeholder="Confirm Password"
-                  name = "password"
+                  name="password"
                   onChange={this.myChangeHandler}
                 />
               </div>
               <div className="row">
                 <div className="col text-center">
-                    <button className="btn text-white" id="boton" >
-                      Register
-                    </button>
+                  <button className="btn text-white" id="boton">
+                    Register
+                  </button>
                 </div>
               </div>
             </form>
