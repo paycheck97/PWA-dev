@@ -14,7 +14,7 @@ import MenuAppBar from "./navbar";
 import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Bin from '../img/bin-2.png'
+//import Bin from '../img/bin-2.png'
 
 const styles = theme => ({});
 
@@ -24,7 +24,8 @@ class dashboard extends React.Component {
     name: "",
     filters: [],
     search_recipes: [],
-    porIngrediente: false
+    porIngrediente: false,
+    ingredients: [],
   };
   handleButtonIngrediente = () => {
     this.setState({ porIngrediente: true });
@@ -53,14 +54,22 @@ class dashboard extends React.Component {
     }
   };
   mySubmitHandler_ingr = async event => {
-    event.preventDefault();
     const { filters, name } = this.state;
-    console.log(name);
-    this.setState({ filters: this.state.filters.concat(name) });
-    console.log(this.state.filters);
+    var check = true;
+    filters.map(filter => {
+      if(filter === name){
+        check = false
+      }
+    })
+    if(check === true){
+      this.setState({ filters: this.state.filters.concat(name) });
+      filters.concat(name);
+    }
+    
+    event.preventDefault();
     try {
       const response = axios
-        .post("/search-recipes", { filters, name })
+        .post("/search-recipes-i", { filters})
         .then(res => {
           const search_recipes = res.data;
           this.setState({ search_recipes });
@@ -70,14 +79,21 @@ class dashboard extends React.Component {
     } catch (err) {
       console.log(err);
     }
-    this.setState({ filters: this.state.filters.concat(name) });
-    console.log(this.state.filters);
+    
   };
   myChangeHandler = async event => {
     let nam = event.target.name;
     let val = event.target.value;
     this.setState({ [nam]: val });
   };
+
+  /*componentDidMount = event =>{
+    fetch("/ingredients")
+      .then(res => res.json())
+      .then(ingredients =>
+        this.setState({ ingredients })
+      );
+  }*/
 
   render() {
     const { search_recipes, porIngrediente, filters } = this.state;
@@ -104,7 +120,7 @@ class dashboard extends React.Component {
       search = (
         <div>
           {filters.map(filter => (
-            <button id="filtros" key={filter}>{filter} <Bin></Bin> </button>
+            <button id="filtros" key={filter}>{filter} </button>
           ))}
           <Form id="search" onSubmit={this.mySubmitHandler_ingr}>
             <Form.Group controlId="exampleForm.ControlInput1">
