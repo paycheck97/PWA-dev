@@ -84,12 +84,13 @@ router.post("/search-recipes-i", async (req, res) => {
             const aux = await pool.query("SELECT * FROM recipe WHERE id = ?", [
               whole[i]["id_recipe"]
             ])
-          in_recetas.push(aux);
+          in_recetas.push(aux[0]);
         } catch (e) {
           console.log(e);
         }
       }
-      res.json(in_recetas)
+      console.log(in_recetas);
+      res.json(in_recetas);
     });
 
   } catch (e) {
