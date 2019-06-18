@@ -6,7 +6,7 @@ import Admin from "./components/admin";
 import Edit from "./components/editrecetas";
 import Agregar from "./components/agregar";
 import Ingredientes from "./components/ingred";
-import {Provider} from './components/context';
+//import {Provider} from './components/context';
 
 // Import the History component to be used below
 
