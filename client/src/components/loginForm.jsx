@@ -24,7 +24,7 @@ class LoginForm extends Component {
         this.props.history.push('/Dashboard');
 
       } else{
-        alert('Incorrect user or password');
+        alert('Incorrect User or Password');
       }
 
     } catch (err) {
@@ -43,8 +43,6 @@ class LoginForm extends Component {
   render() {
     return (
       <div className="container">
-        {this.state.email}
-        {this.state.password}
         <div className="row justify-content-center">
           <div className="col-10">
             <form onSubmit={this.mySubmitHandler}>
@@ -75,11 +73,6 @@ class LoginForm extends Component {
                 </div>
               </div>
             </form>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col text-center">
-            <small className="text-center">Forggot Password?</small>
           </div>
         </div>
         <div className="row">
