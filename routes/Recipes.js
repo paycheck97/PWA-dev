@@ -74,7 +74,7 @@ router.post("/add-recipe", async (req, res) => {
 });
 
 router.post("/update-recipe/:id", async (req, res) => {
-  const {id}= req.props.match.params;
+  const {id}= req.params;
   const {
     name,
     instructions,
@@ -94,7 +94,14 @@ router.post("/update-recipe/:id", async (req, res) => {
   };
   try {
     await pool.query("UPDATE recipe set ? WHERE id = ?", [updateRecipe, id]);
-  } catch (e) {}
+    console.log(name);
+    console.log(id)
+  } catch (e) {
+    console.log(e)
+  }
+});
+
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const verify = {
