@@ -136,6 +136,35 @@ router.post("/add-recipe", async (req, res) => {
   } catch (e) {}
 });
 
+router.post("/update-recipe/:id", async (req, res) => {
+  const {id}= req.params;
+  const {
+    name,
+    instructions,
+    prep_time,
+    servings,
+    calories_ps,
+    thumbnail
+  } = req.body;
+  
+  const updateRecipe = {
+    name,
+    instructions,
+    prep_time,
+    servings,
+    calories_ps,
+    thumbnail
+  };
+  try {
+    await pool.query("UPDATE recipe set ? WHERE id = ?", [updateRecipe, id]);
+    console.log(name);
+    console.log(id)
+  } catch (e) {
+    console.log(e)
+  }
+});
+
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const verify = {

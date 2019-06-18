@@ -10,14 +10,13 @@ class edit extends Component {
   state = {
     recetas: [],
     receta_id: null,
-    expanded: false ,
     name: "",
     instructions: "",
     prep_time: "",
     servings: "",
     calories_ps: "",
     thumbnail: ""
-  }
+  };
 
 mySubmitHandler = async event => {
   const {
@@ -37,12 +36,14 @@ mySubmitHandler = async event => {
       calories_ps,
       thumbnail
     });
+
     console.log(response);
   } catch (err) {
     console.log(err);
   }
   alert(this.state.nombre + this.state.metodo);
 };
+
   myChangeHandler = async event => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -60,6 +61,8 @@ mySubmitHandler = async event => {
     );
 }
 
+
+
   render() {
     const {  recetas } = this.state;
     return (
@@ -70,7 +73,7 @@ mySubmitHandler = async event => {
           </h1>
         <div id={"form"}>
         {recetas.map(receta =>(
-          <Form>
+          <Form onSubmit={this.mySubmitHandler}>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label><h3>Nombre Receta</h3></Form.Label>
               <Form.Control type="text" defaultValue={receta.name} name="name"
