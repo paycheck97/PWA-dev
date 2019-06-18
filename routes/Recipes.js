@@ -100,10 +100,8 @@ router.post("/search-recipes-i", async (req, res) => {
 
 //buscar por nombre
 router.post("/search-recipes", async (req, res) => {
-  var { filters, name } = req.body;
-  console.log(filters);
+  var { name } = req.body;
   name = name.concat("%");
-  console.log(name);
   try {
     const reci = await pool.query("SELECT * FROM recipe WHERE name LIKE ? ", [
       name
@@ -199,13 +197,14 @@ router.post("/login", async (req, res) => {
 
 //Regitro de Usuario
 router.post("/register", async (req, res) => {
-  const { email, name, last_name, password } = req.body;
+  const { email, name, last_name, password, answer } = req.body;
 
   const newUser = {
     email,
     name,
     last_name,
-    password
+    password,
+    answer
   };
   try {
     const check = await pool.query("SELECT * FROM user WHERE email = ?", [
@@ -219,6 +218,35 @@ router.post("/register", async (req, res) => {
       newUser.password = hash;
       await pool.query("INSERT INTO user set ?", [newUser]);
       console.log("success");
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+//Change password
+router.post("/change-password", async (req, res) => {
+  const { email, password, answer } = req.body;
+
+  const newPass = {
+    email,
+    password,
+    answer
+  };
+  try {
+    const check = await pool.query("SELECT * FROM user WHERE email = ? AND answer = ?", [
+      email, answer
+    ]);
+    if (check.length > 0) {
+      const hash = bcrypt.hashSync(newPass.password, 10);
+      newPass.password = hash;
+      await pool.query("UPDATE user set password = ? WHERE email = ?", [newPass.password, newPass.email]);
+      console.log("success");
+      res.send(true)
+
+    } else {
+      res.send(false);
+      console.log("fail");
     }
   } catch (e) {
     console.log(e);
