@@ -56,6 +56,7 @@ class dashboard extends React.Component {
   mySubmitHandler_ingr = async event => {
     const { filters, name } = this.state;
     var check = true;
+    // eslint-disable-next-line array-callback-return
     filters.map(filter => {
       if(filter === name){
         check = false
