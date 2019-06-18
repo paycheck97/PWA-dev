@@ -6,6 +6,11 @@ import Admin from "./components/admin";
 import Edit from "./components/edit";
 import Agregar from "./components/agregar";
 import Ingredientes from "./components/ingred";
+
+//import {Provider} from './components/context';
+
+// Import the History component to be used below
+
 import Login from "./components/login";
 import { BrowserRouter, Route } from "react-router-dom";
 import User from "./components/user";
