@@ -1,6 +1,9 @@
 import React, { Component }  from "react";
 import "./login.css";
 import MenuAppBar from "../components/navbar";
+//import Info2 from "../components/InfoCard";
+//import axios from 'axios';
+
 import Card from 'react-bootstrap/Card'
 
 class Info extends Component {

@@ -13,7 +13,6 @@ router.get("/recipes", async (req, res) => {
   }
 });
 
-
 router.get("/ingredients", async (req, res) => {
   try {
     const ingredientes = await pool.query("SELECT * FROM ingredient");
@@ -34,6 +33,72 @@ router.get("/view-recipe/:id", async (req, res) => {
   }
 });
 
+//Buscar por ingrediente
+router.post("/search-recipes-i", async (req, res) => {
+  var { filters } = req.body;
+  var whole = [];
+  var check = true;
+  var firstTime = true;
+  var in_recetas = [];
+
+  console.log(filters);
+  try {
+    const ser = filters.map(async filter => {
+      const ingre = await pool.query(
+        "SELECT id FROM ingredient WHERE name = ?",
+        [filter]
+      );
+      const id = ingre[0]["id"];
+      console.log("se imprime el id: ", id);
+      const id_recipes = await pool.query(
+        "SELECT id_recipe FROM search WHERE id_ingredient = ?",
+        [id]
+      );
+      if (whole.length < 1 && firstTime == true) {
+        whole = id_recipes;
+      }
+
+      console.log("primero", whole);
+      for (i = whole.length - 1; i >= 0; i--) {
+        check = false;
+        id_recipes.map(id_recipe => {
+          if (whole[i]["id_recipe"] == id_recipe["id_recipe"]) {
+            check = true;
+          }
+        });
+        if (check == false) {
+          console.log("entro");
+          whole.splice(i, 1);
+        }
+      }
+      console.log("segundo", whole);
+      if (whole.length < 1) {
+        firstTime = false;
+      }
+    });
+
+    Promise.all(ser).then(async () => {
+      console.log("tercero", whole);
+      for (i = whole.length - 1; i >= 0; i--) {
+        try {
+            const aux = await pool.query("SELECT * FROM recipe WHERE id = ?", [
+              whole[i]["id_recipe"]
+            ])
+          in_recetas.push(aux[0]);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      console.log(in_recetas);
+      res.json(in_recetas);
+    });
+
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+//buscar por nombre
 router.post("/search-recipes", async (req, res) => {
   var { filters, name } = req.body;
   console.log(filters);
@@ -114,17 +179,15 @@ router.post("/login", async (req, res) => {
     const check = await pool.query("SELECT * FROM user WHERE email = ?", [
       email
     ]);
-    console.log(check[0]['password']);
+    console.log(check[0]["password"]);
     if (check.length > 0) {
-      if(bcrypt.compareSync(verify.password, check[0]['password'])){
-        console.log('success');
+      if (bcrypt.compareSync(verify.password, check[0]["password"])) {
+        console.log("success");
         res.json(true);
-
-      }else{
-        console.log('success/fail');
+      } else {
+        console.log("success/fail");
         res.json(false);
       }
-      
     } else {
       res.send("Existe un usuario con ese correo");
       console.log("fail");
