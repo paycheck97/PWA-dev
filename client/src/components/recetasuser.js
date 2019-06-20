@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import Row from "react-bootstrap/Row";
 import { Typography } from "@material-ui/core";
-import Rater from 'react-rater';
-import 'react-rater/lib/react-rater.css';
-
-
+import Rater from "react-rater";
+import "react-rater/lib/react-rater.css";
 
 class prueba extends Component {
   state = {
@@ -27,16 +25,15 @@ class prueba extends Component {
   }
 
   render() {
-    const { recetas} = this.state;
+    const { recetas } = this.state;
     return (
-      
       <div className="container text-center">
         <div className="row mx-auto my-auto">
           <div className="col text-center">
             <Carousel indicators={false}>
               {recetas.map(receta => (
                 <Carousel.Item key={receta.id}>
-                  <div className="card">
+                  <div className="card shadow-md">
                     <img
                       className="d-block w-100"
                       src={receta.thumbnail}
@@ -49,10 +46,14 @@ class prueba extends Component {
                       </Typography>
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
-                      <Row className="justify-content-md-center"  >
-                          <Rater className="justify-content-md-center" total={5} rating={receta.rating} interactive={false} />
+                      <Row className="justify-content-md-center d-flex flex-column my-3">
+                        <Rater
+                          total={5}
+                          rating={receta.rating}
+                          interactive={false}
+                        />
                       </Row>
-                      
+
                       <Link
                         to={`Info/${receta.id}`}
                         className="btn btn-primary"

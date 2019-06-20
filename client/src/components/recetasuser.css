@@ -23,3 +23,8 @@ img {
 .btn {
   margin: 5px;
 }
+
+.card {
+  min-height: 30rem;
+  
+}

@@ -81,9 +81,9 @@ router.post("/search-recipes-i", async (req, res) => {
       console.log("tercero", whole);
       for (i = whole.length - 1; i >= 0; i--) {
         try {
-            const aux = await pool.query("SELECT * FROM recipe WHERE id = ?", [
-              whole[i]["id_recipe"]
-            ])
+          const aux = await pool.query("SELECT * FROM recipe WHERE id = ?", [
+            whole[i]["id_recipe"]
+          ]);
           in_recetas.push(aux[0]);
         } catch (e) {
           console.log(e);
@@ -92,7 +92,6 @@ router.post("/search-recipes-i", async (req, res) => {
       console.log(in_recetas);
       res.json(in_recetas);
     });
-
   } catch (e) {
     console.log(e);
   }
@@ -137,7 +136,7 @@ router.post("/add-recipe", async (req, res) => {
 });
 
 router.post("/update-recipe/:id", async (req, res) => {
-  const {id}= req.params;
+  const { id } = req.params;
   const {
     name,
     instructions,
@@ -146,7 +145,7 @@ router.post("/update-recipe/:id", async (req, res) => {
     calories_ps,
     thumbnail
   } = req.body;
-  
+
   const updateRecipe = {
     name,
     instructions,
@@ -157,14 +156,10 @@ router.post("/update-recipe/:id", async (req, res) => {
   };
   try {
     await pool.query("UPDATE recipe set ? WHERE id = ?", [updateRecipe, id]);
-    console.log(name);
-    console.log(id)
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 });
-
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const verify = {
@@ -204,6 +199,7 @@ router.post("/register", async (req, res) => {
     name,
     last_name,
     password,
+    password,
     answer
   };
   try {
@@ -224,33 +220,46 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//Change password
-router.post("/change-password", async (req, res) => {
-  const { email, password, answer } = req.body;
-
-  const newPass = {
-    email,
-    password,
-    answer
-  };
+router.post("/change-rating/:id", async (req, res) => {
+  const { rating } = req.body;
+  const { id } = req.params;
+  console.log(id);
   try {
-    const check = await pool.query("SELECT * FROM user WHERE email = ? AND answer = ?", [
-      email, answer
-    ]);
-    if (check.length > 0) {
-      const hash = bcrypt.hashSync(newPass.password, 10);
-      newPass.password = hash;
-      await pool.query("UPDATE user set password = ? WHERE email = ?", [newPass.password, newPass.email]);
-      console.log("success");
-      res.send(true)
-
-    } else {
-      res.send(false);
-      console.log("fail");
-    }
+    await pool.query("UPDATE recipe SET rating = ? WHERE id = ?", [rating, id]);
   } catch (e) {
     console.log(e);
   }
+  //Change password
+  router.post("/change-password", async (req, res) => {
+    const { email, password, answer } = req.body;
+
+    const newPass = {
+      email,
+      password,
+      answer
+    };
+    try {
+      const check = await pool.query(
+        "SELECT * FROM user WHERE email = ? AND answer = ?",
+        [email, answer]
+      );
+      if (check.length > 0) {
+        const hash = bcrypt.hashSync(newPass.password, 10);
+        newPass.password = hash;
+        await pool.query("UPDATE user set password = ? WHERE email = ?", [
+          newPass.password,
+          newPass.email
+        ]);
+        console.log("success");
+        res.send(true);
+      } else {
+        res.send(false);
+        console.log("fail");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
 });
 
 router.post("/add-ingredient", async (req, res) => {
