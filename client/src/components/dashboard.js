@@ -25,7 +25,7 @@ class dashboard extends React.Component {
     filters: [],
     search_recipes: [],
     porIngrediente: true,
-    ingredients: [],
+    ingredients: []
   };
   handleButtonIngrediente = () => {
     this.setState({ porIngrediente: true });
@@ -37,17 +37,15 @@ class dashboard extends React.Component {
   };
 
   mySubmitHandler = async event => {
-    const { name} = this.state;
+    const { name } = this.state;
     console.log(name);
     event.preventDefault();
     try {
-      const response = axios
-        .post("/search-recipes", { name })
-        .then(res => {
-          const search_recipes = res.data;
-          this.setState({ search_recipes });
-          console.log(this.state.search_recipes);
-        });
+      const response = axios.post("/search-recipes", { name }).then(res => {
+        const search_recipes = res.data;
+        this.setState({ search_recipes });
+        console.log(this.state.search_recipes);
+      });
       console.log(response);
     } catch (err) {
       console.log(err);
@@ -56,32 +54,31 @@ class dashboard extends React.Component {
   mySubmitHandler_ingr = async event => {
     var { filters, name } = this.state;
     var check = true;
+    event.preventDefault();
     // eslint-disable-next-line array-callback-return
-    filters.map(async filter => {
-      if(filter === name){
-        check = false
+    filters.map( filter => {
+      if (filter === name) {
+        check = false;
       }
-    })
-    if(check === true){
-      this.setState({ filters: this.state.filters.concat(name) });
-      filters =this.state.filters;
-      
+    });
+    if (check === true) {
+      this.setState({ filters: this.state.filters.concat(name) }, () => {
+        filters = this.state.filters;
+        try {
+          const response = axios
+            .post("/search-recipes-i", { filters })
+            .then(res => {
+              const search_recipes = res.data;
+              this.setState({ search_recipes });
+              console.log(this.state.search_recipes);
+            });
+          console.log(response);
+        } catch (err) {
+          console.log(err);
+        }
+      });
     }
     console.log(filters);
-    event.preventDefault();
-    try {
-      const response = axios
-        .post("/search-recipes-i", { filters})
-        .then(res => {
-          const search_recipes = res.data;
-          this.setState({ search_recipes });
-          console.log(this.state.search_recipes);
-        });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-    
   };
   myChangeHandler = async event => {
     let nam = event.target.name;
@@ -122,7 +119,9 @@ class dashboard extends React.Component {
       search = (
         <div>
           {filters.map(filter => (
-            <button id="filtros" key={filter}>{filter} </button>
+            <button id="filtros" key={filter}>
+              {filter}{" "}
+            </button>
           ))}
           <Form id="search" onSubmit={this.mySubmitHandler_ingr}>
             <Form.Group controlId="exampleForm.ControlInput1">
@@ -190,14 +189,19 @@ class dashboard extends React.Component {
                         Calorias {search_recipe.calories_ps}
                       </Typography>
                       <Typography>Servings {search_recipe.servings}</Typography>
-                      <Link to={`Info/${search_recipe.id}`} className="btn btn-primary">
+                      <Link
+                        to={`Info/${search_recipe.id}`}
+                        className="btn btn-primary"
+                      >
                         Learn More
                       </Link>
-                      <Link to={`Info/${search_recipe.id}`} className="btn btn-warning">
+                      <Link
+                        to={`Info/${search_recipe.id}`}
+                        className="btn btn-warning"
+                      >
                         Favorite
                       </Link>
                     </div>
-                    
                   </div>
                 </Col>
               ))}

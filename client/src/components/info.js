@@ -18,7 +18,7 @@ class Info extends Component {
   };
 
   mySubmitHandler = async event => {
-    const { rating, receta_id } = this.state;
+    const { rating } = this.state;
     event.preventDefault();
     try {
       const response = axios
