@@ -14,6 +14,7 @@ import MenuAppBar from "./navbar";
 import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Chip from '@material-ui/core/Chip';
 //import Bin from '../img/bin-2.png'
 
 const styles = theme => ({});
@@ -35,6 +36,29 @@ class dashboard extends React.Component {
     this.setState({ porIngrediente: false });
     console.log(this.state.porIngrediente);
   };
+
+  removeFilter = (filter) => {
+    var {filters} = this.state;
+    console.log('entre');
+    console.log(filter);
+    this.setState(filters.splice(this.state.filters.indexOf(filter), 1), ()=> {
+      console.log(this.state.filters);
+      filters = this.state.filters;
+      try {
+        const response = axios
+          .post("/search-recipes-i", { filters })
+          .then(res => {
+            const search_recipes = res.data;
+            this.setState({ search_recipes });
+            console.log(this.state.search_recipes);
+          });
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+  }
 
   mySubmitHandler = async event => {
     const { name } = this.state;
@@ -117,11 +141,10 @@ class dashboard extends React.Component {
       );
     } else {
       search = (
-        <div>
+        <div className=" my-3">
           {filters.map(filter => (
-            <button id="filtros" key={filter}>
-              {filter}{" "}
-            </button>
+            <Chip  label={filter} key={filter} onDelete={() => this.removeFilter({filter})}>
+            </Chip>
           ))}
           <Form id="search" onSubmit={this.mySubmitHandler_ingr}>
             <Form.Group controlId="exampleForm.ControlInput1">
