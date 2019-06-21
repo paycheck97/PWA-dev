@@ -14,15 +14,19 @@ class prueba extends Component {
     rating: null
   };
 
-  componentDidMount() {
-    fetch("/recipes")
-      .then(res => res.json())
-      .then(recetas =>
-        this.setState({ recetas }, () =>
-          console.log("Fetch realizado", recetas)
-        )
-      );
-  }
+  componentDidMount = event => {
+    try {
+      fetch("/recipes")
+        .then(res => res.json())
+        .then(recetas =>
+          this.setState({ recetas }, () =>
+            console.log("Fetch realizado", recetas)
+          )
+        );
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   render() {
     const { recetas } = this.state;
