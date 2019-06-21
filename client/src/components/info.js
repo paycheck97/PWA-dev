@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./login.css";
+import "./info.css";
 import MenuAppBar from "../components/navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -18,7 +18,7 @@ class Info extends Component {
   };
 
   mySubmitHandler = async event => {
-    const { rating, receta_id } = this.state;
+    const { rating } = this.state;
     event.preventDefault();
     try {
       const response = axios
@@ -52,10 +52,10 @@ class Info extends Component {
   render() {
     const { recetas } = this.state;
     return (
-      <div>
+      <div className="justify-content-md-center" >
         <MenuAppBar />
         {recetas.map(receta => (
-          <Card style={{ width: "18rem" }}>
+          <Card id="carta_info" >
             <Card.Img variant="top" src={receta.thumbnail} />
             <Card.Body>
               <Card.Title>{receta.name}</Card.Title>
