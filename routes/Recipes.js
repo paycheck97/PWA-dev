@@ -19,6 +19,7 @@ router.get("/ingredients", async (req, res) => {
     res.json(ingredientes);
   } catch (e) {
     console.log(e);
+    res.json(e)
   }
 });
 
@@ -41,7 +42,6 @@ router.post("/search-recipes-i", async (req, res) => {
   var firstTime = true;
   var in_recetas = [];
 
-  console.log(filters);
   try {
     const ser = filters.map(async filter => {
       const ingre = await pool.query(
@@ -58,7 +58,6 @@ router.post("/search-recipes-i", async (req, res) => {
         whole = id_recipes;
       }
 
-      console.log("primero", whole);
       for (i = whole.length - 1; i >= 0; i--) {
         check = false;
         id_recipes.map(id_recipe => {
@@ -67,18 +66,15 @@ router.post("/search-recipes-i", async (req, res) => {
           }
         });
         if (check == false) {
-          console.log("entro");
           whole.splice(i, 1);
         }
       }
-      console.log("segundo", whole);
       if (whole.length < 1) {
         firstTime = false;
       }
     });
 
     Promise.all(ser).then(async () => {
-      console.log("tercero", whole);
       for (i = whole.length - 1; i >= 0; i--) {
         try {
           const aux = await pool.query("SELECT * FROM recipe WHERE id = ?", [
