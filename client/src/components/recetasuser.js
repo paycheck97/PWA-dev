@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import { Typography } from "@material-ui/core";
 import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
+import axios from "axios";
 
 class prueba extends Component {
   state = {
@@ -16,13 +17,10 @@ class prueba extends Component {
 
   componentDidMount = event => {
     try {
-      fetch("/recipes")
-        .then(res => res.json())
-        .then(recetas =>
-          this.setState({ recetas }, () =>
-            console.log("Fetch realizado", recetas)
-          )
-        );
+      axios.get("/recipes").then(res => {
+        const recetas = res.data;
+        this.setState({ recetas });
+      });
     } catch (e) {
       alert(e);
     }

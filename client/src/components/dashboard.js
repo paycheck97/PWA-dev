@@ -15,6 +15,8 @@ import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
+import Rater from "react-rater";
+import "react-rater/lib/react-rater.css";
 //import Bin from '../img/bin-2.png'
 
 const styles = theme => ({});
@@ -65,20 +67,19 @@ class dashboard extends React.Component {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === true) {
-    try {
-          const response = axios.post("/search-recipes", { name }).then(res => {
-            const search_recipes = res.data;
-            this.setState({ search_recipes });
-            console.log(this.state.search_recipes);
-          });
-          console.log(response);
-        } catch (err) {
-          console.log(err);
-        }
-    }else{
-      alert('Ingrese un nombre antes');
+      try {
+        const response = axios.post("/search-recipes", { name }).then(res => {
+          const search_recipes = res.data;
+          this.setState({ search_recipes });
+          console.log(this.state.search_recipes);
+        });
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert("Ingrese un nombre antes");
     }
-    
   };
   mySubmitHandler_ingr = async event => {
     var { filters, name } = this.state;
@@ -116,11 +117,12 @@ class dashboard extends React.Component {
 
   componentDidMount = event => {
     try {
-      fetch("/ingredients")
-        .then(res => res.json())
-        .then(ingredients => this.setState({ ingredients }, () => {
-            console.log("Fetch realizado", ingredients)
-        }));
+      axios.get("/ingredients").then(res => {
+        const ingredients = res.data;
+        this.setState({ ingredients });
+      }).catch(e =>
+        console.log(e)
+      );
     } catch (e) {
       alert(e);
     }
@@ -138,7 +140,8 @@ class dashboard extends React.Component {
                 type="text"
                 placeholder="Choose by Name"
                 onChange={this.myChangeHandler}
-                name="name" required
+                name="name"
+                required
               />
             </Form.Group>
             <Button variant="light" type="submit">
@@ -210,14 +213,17 @@ class dashboard extends React.Component {
             <Row>
               {search_recipes.map(search_recipe => (
                 <Col lg={4} key={search_recipe.id}>
-                  <div className="card my-3" style={{ width: "90%", margin: 'auto' }}>
+                  <div
+                    className="card my-3"
+                    style={{ width: "85%", margin: "auto" }}
+                  >
                     <img
                       className="d-block w-100"
                       src={search_recipe.thumbnail}
                       alt={search_recipe.nombre}
                     />
                     <div className="card-body">
-                      <Typography className="card-title">
+                      <Typography className="card-title" variant="h4">
                         {search_recipe.name}
                       </Typography>
                       <Typography>
@@ -227,6 +233,13 @@ class dashboard extends React.Component {
                         Calorias {search_recipe.calories_ps}
                       </Typography>
                       <Typography>Servings {search_recipe.servings}</Typography>
+                      <Row className="justify-content-md-center d-flex flex-column my-3">
+                        <Rater
+                          total={5}
+                          rating={search_recipe.rating}
+                          interactive={false}
+                        />
+                      </Row>
                       <Link
                         to={`Info/${search_recipe.id}`}
                         className="btn btn-primary"
