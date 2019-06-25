@@ -59,6 +59,8 @@ class Info extends Component {
             <Card.Img variant="top" src={receta.thumbnail} />
             <Card.Body>
               <Card.Title>{receta.name}</Card.Title>
+              <Card.Title>Autor</Card.Title>
+              <Card.Title>{receta.author}</Card.Title>
               <Card.Text>{receta.instructions}</Card.Text>
               <div>
                 <Form id="search" onSubmit={this.mySubmitHandler}>
