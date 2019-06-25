@@ -75,7 +75,7 @@ class User extends Component {
         </Card>
         </Col>
         <Col xl={8} sm={12}>
-          <Typography variant="h4">
+          <Typography variant="h4" className="my-3">
             Recetas Favoritas
           </Typography>
         <div id="recetas">
