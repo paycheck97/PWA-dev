@@ -7,17 +7,20 @@ class Register extends Component {
     email: "",
     name: "",
     last_name: "",
-    password: ""
+    password: "",
+    answer: "",
   };
 
   mySubmitHandler = async event => {
-    const { email, name, last_name, password } = this.state;
+    const { email, name, last_name, password, answer } = this.state;
+    event.preventDefault();
     try {
       const response = await axios.post("/register", {
         email,
         name,
         last_name,
-        password
+        password, 
+        answer
       });
       console.log(response);
     } catch (err) {
@@ -65,6 +68,15 @@ class Register extends Component {
                   id="exampleInputEmail1"
                   placeholder="Enter Last Name"
                   name="last_name"
+                  onChange={this.myChangeHandler}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Nombre de tu primera mascota"
+                  name="answer"
                   onChange={this.myChangeHandler}
                 />
               </div>

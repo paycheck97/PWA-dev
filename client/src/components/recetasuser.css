@@ -4,6 +4,7 @@
   align-content: center;
 }
 
+
 /* control image height */
 img {
   width: 100%;
@@ -21,4 +22,9 @@ img {
 }
 .btn {
   margin: 5px;
+}
+
+.card {
+  min-height: 30rem;
+  
 }

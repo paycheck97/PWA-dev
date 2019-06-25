@@ -14,6 +14,9 @@ import MenuAppBar from "./navbar";
 import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Chip from "@material-ui/core/Chip";
+import Rater from "react-rater";
+import "react-rater/lib/react-rater.css";
 //import Bin from '../img/bin-2.png'
 
 const styles = theme => ({});
@@ -24,8 +27,8 @@ class dashboard extends React.Component {
     name: "",
     filters: [],
     search_recipes: [],
-    porIngrediente: false,
-    ingredients: [],
+    porIngrediente: true,
+    ingredients: []
   };
   handleButtonIngrediente = () => {
     this.setState({ porIngrediente: true });
@@ -36,51 +39,75 @@ class dashboard extends React.Component {
     console.log(this.state.porIngrediente);
   };
 
+  removeFilter = filter => {
+    var { filters } = this.state;
+    console.log("entre");
+    console.log(filter);
+    this.setState(filters.splice(this.state.filters.indexOf(filter), 1), () => {
+      console.log(this.state.filters);
+      filters = this.state.filters;
+      try {
+        const response = axios
+          .post("/search-recipes-i", { filters })
+          .then(res => {
+            const search_recipes = res.data;
+            this.setState({ search_recipes });
+            console.log(this.state.search_recipes);
+          });
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  };
+
   mySubmitHandler = async event => {
-    const { name, filters } = this.state;
+    const { name } = this.state;
     console.log(name);
     event.preventDefault();
-    try {
-      const response = axios
-        .post("/search-recipes", { filters, name })
-        .then(res => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === true) {
+      try {
+        const response = axios.post("/search-recipes", { name }).then(res => {
           const search_recipes = res.data;
           this.setState({ search_recipes });
           console.log(this.state.search_recipes);
         });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert("Ingrese un nombre antes");
     }
   };
   mySubmitHandler_ingr = async event => {
-    const { filters, name } = this.state;
+    var { filters, name } = this.state;
     var check = true;
+    event.preventDefault();
     // eslint-disable-next-line array-callback-return
     filters.map(filter => {
-      if(filter === name){
-        check = false
+      if (filter === name) {
+        check = false;
       }
-    })
-    if(check === true){
-      this.setState({ filters: this.state.filters.concat(name) });
-      filters.concat(name);
+    });
+    if (check === true) {
+      this.setState({ filters: this.state.filters.concat(name) }, () => {
+        filters = this.state.filters;
+        try {
+          const response = axios
+            .post("/search-recipes-i", { filters })
+            .then(res => {
+              const search_recipes = res.data;
+              this.setState({ search_recipes });
+              console.log(this.state.search_recipes);
+            });
+          console.log(response);
+        } catch (err) {
+          console.log(err);
+        }
+      });
     }
-    
-    event.preventDefault();
-    try {
-      const response = axios
-        .post("/search-recipes-i", { filters})
-        .then(res => {
-          const search_recipes = res.data;
-          this.setState({ search_recipes });
-          console.log(this.state.search_recipes);
-        });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-    
   };
   myChangeHandler = async event => {
     let nam = event.target.name;
@@ -88,27 +115,33 @@ class dashboard extends React.Component {
     this.setState({ [nam]: val });
   };
 
-  /*componentDidMount = event =>{
-    fetch("/ingredients")
-      .then(res => res.json())
-      .then(ingredients =>
-        this.setState({ ingredients })
+  componentDidMount = event => {
+    try {
+      axios.get("/ingredients").then(res => {
+        const ingredients = res.data;
+        this.setState({ ingredients });
+      }).catch(e =>
+        console.log(e)
       );
-  }*/
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   render() {
-    const { search_recipes, porIngrediente, filters } = this.state;
+    const { search_recipes, porIngrediente, filters, ingredients } = this.state;
     let search;
     if (!porIngrediente) {
       search = (
         <div>
-          <Form id="search" onSubmit={this.mySubmitHandler}>
+          <Form id="search" onSubmit={this.mySubmitHandler} noValidate>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Control
                 type="text"
                 placeholder="Choose by Name"
                 onChange={this.myChangeHandler}
                 name="name"
+                required
               />
             </Form.Group>
             <Button variant="light" type="submit">
@@ -119,18 +152,26 @@ class dashboard extends React.Component {
       );
     } else {
       search = (
-        <div>
+        <div className=" my-3">
           {filters.map(filter => (
-            <button id="filtros" key={filter}>{filter} </button>
+            <Chip
+              label={filter}
+              key={filter}
+              onDelete={() => this.removeFilter({ filter })}
+            />
           ))}
           <Form id="search" onSubmit={this.mySubmitHandler_ingr}>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Control
                 type="text"
-                placeholder="Choose by Ingredient"
                 onChange={this.myChangeHandler}
                 name="name"
-              />
+                as="select"
+              >
+                {ingredients.map(ingredient => (
+                  <option key={ingredient.id}>{ingredient.name}</option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <Button variant="light" type="submit">
               Search
@@ -171,15 +212,18 @@ class dashboard extends React.Component {
           <div>
             <Row>
               {search_recipes.map(search_recipe => (
-                <Col lg="4" key={search_recipe.id}>
-                  <div className="card">
+                <Col lg={4} key={search_recipe.id}>
+                  <div
+                    className="card my-3"
+                    style={{ width: "85%", margin: "auto" }}
+                  >
                     <img
                       className="d-block w-100"
                       src={search_recipe.thumbnail}
                       alt={search_recipe.nombre}
                     />
                     <div className="card-body">
-                      <Typography className="card-title">
+                      <Typography className="card-title" variant="h4">
                         {search_recipe.name}
                       </Typography>
                       <Typography>
@@ -189,14 +233,26 @@ class dashboard extends React.Component {
                         Calorias {search_recipe.calories_ps}
                       </Typography>
                       <Typography>Servings {search_recipe.servings}</Typography>
-                      <Link to={`Info/${search_recipe.id}`} className="btn btn-primary">
+                      <Row className="justify-content-md-center d-flex flex-column my-3">
+                        <Rater
+                          total={5}
+                          rating={search_recipe.rating}
+                          interactive={false}
+                        />
+                      </Row>
+                      <Link
+                        to={`Info/${search_recipe.id}`}
+                        className="btn btn-primary"
+                      >
                         Learn More
                       </Link>
-                      <Link to={`Info/${search_recipe.id}`} className="btn btn-warning">
+                      <Link
+                        to={`Info/${search_recipe.id}`}
+                        className="btn btn-warning"
+                      >
                         Favorite
                       </Link>
                     </div>
-                    
                   </div>
                 </Col>
               ))}
