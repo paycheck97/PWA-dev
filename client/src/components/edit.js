@@ -44,6 +44,18 @@ mySubmitHandler = async event => {
   alert(this.state.nombre + this.state.metodo);
 };
 
+golazoCR7siuuuuuHandler = async event => {
+  
+  try {
+    const response = await axios.post(`/delete-recipe/${this.props.match.params.id}`, {});
+
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+  }
+  alert(this.state.nombre + this.state.metodo);
+};
+
   myChangeHandler = async event => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -73,6 +85,7 @@ mySubmitHandler = async event => {
           </h1>
         <div id={"form"}>
         {recetas.map(receta =>(
+          <div>
           <Form onSubmit={this.mySubmitHandler}>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label><h3>Nombre Receta</h3></Form.Label>
@@ -122,6 +135,10 @@ mySubmitHandler = async event => {
             </Form.Group>
             <Button variant="secondary" size="lg" block type="submit">Submit</Button>
           </Form>
+          <Form onSubmit={this.golazoCR7siuuuuuHandler}>
+            <Button variant="danger" size="lg" block type="submit">Delete</Button>
+          </Form>
+          </div>
           ))}
         </div>
       </div>
