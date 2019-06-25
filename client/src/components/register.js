@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./register.css";
 
+
 class Register extends Component {
   state = {
     email: "",
@@ -26,7 +27,7 @@ class Register extends Component {
     } catch (err) {
       console.log(err);
     }
-    alert(this.state.nombre + this.state.metodo);
+    alert.show(this.state.name + ' has sido registrado con exito!');
   };
 
   myChangeHandler = async event => {
