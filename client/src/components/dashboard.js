@@ -226,6 +226,9 @@ class dashboard extends React.Component {
                       <Typography className="card-title" variant="h4">
                         {search_recipe.name}
                       </Typography>
+                      <Typography className="card-title" variant="h4">
+                        Autor: {search_recipe.author}
+                      </Typography>
                       <Typography>
                         Tiempo de preparacion {search_recipe.prep_time}
                       </Typography>

@@ -14,7 +14,8 @@ class edit extends Component {
     prep_time: "",
     servings: "",
     calories_ps: "",
-    thumbnail: ""
+    thumbnail: "",
+    author: "",
   };
   mySubmitHandler = async event => {
     const {
@@ -23,7 +24,8 @@ class edit extends Component {
       prep_time,
       servings,
       calories_ps,
-      thumbnail
+      thumbnail, 
+      author
     } = this.state;
     try {
       const response = await axios.post("/add-recipe", {
@@ -32,7 +34,8 @@ class edit extends Component {
         prep_time,
         servings,
         calories_ps,
-        thumbnail
+        thumbnail, 
+        author
       });
       console.log(response);
     } catch (err) {
@@ -73,6 +76,17 @@ class edit extends Component {
                 placeholder={"Nombre Receta"}
                 onChange={this.myChangeHandler}
                 name="name"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>
+                <h3>{this.state.author}</h3>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={"Autor Receta"}
+                onChange={this.myChangeHandler}
+                name="author"
               />
             </Form.Group>
             <Form.Label>
