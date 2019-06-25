@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Col from "react-bootstrap/Col";
 import MenuAppBar from "./navbar";
-import Recetas from "./prueba";
+import Recetas from "./recetasuser";
 import Row from 'react-bootstrap/Row'
 import { Container } from "@material-ui/core";
 
