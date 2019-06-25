@@ -19,24 +19,26 @@ class prueba extends Component {
 
   componentDidMount = event => {
     const token = localStorage.userToken;
-    const decode = jwt_decode(token);
+    if (token != null) {
+      const decode = jwt_decode(token);
 
-    this.setState({ userID: decode.id }, () => {
-        const id_user = this.state.userID
+      this.setState({ userID: decode.id }, () => {
+        const id_user = this.state.userID;
         console.log(id_user);
-      try {
-        axios
-          .post("/saved-recipes", {
-            id_user
-          })
-          .then(res => {
-            const recetas = res.data;
-            this.setState({ recetas });
-          });
-      } catch (e) {
-        alert(e);
-      }
-    });
+        try {
+          axios
+            .post("/saved-recipes", {
+              id_user
+            })
+            .then(res => {
+              const recetas = res.data;
+              this.setState({ recetas });
+            });
+        } catch (e) {
+          alert(e);
+        }
+      });
+    }
   };
 
   render() {

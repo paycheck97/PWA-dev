@@ -9,6 +9,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Alert from "react-bootstrap/Alert";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import MenuAppBar from "./navbar";
 import Title from "../img/recetas-sugeridas.png";
@@ -28,7 +29,8 @@ class dashboard extends React.Component {
     filters: [],
     search_recipes: [],
     porIngrediente: true,
-    ingredients: []
+    ingredients: [],
+    show: false
   };
   handleButtonIngrediente = () => {
     this.setState({ porIngrediente: true });
@@ -116,6 +118,10 @@ class dashboard extends React.Component {
   };
 
   componentDidMount = event => {
+    const token = localStorage.userToken;
+    if (token != null) {
+      this.setState({ show: true });
+    }
     try {
       axios
         .get("/ingredients")
@@ -129,20 +135,18 @@ class dashboard extends React.Component {
     }
   };
 
-  componentWillMount = () => {
-    const token = localStorage.userToken;
-    if (token == null) {
-      this.props.history.push("/");
-      alert("Usted no ha iniciado sesion.");
-    }
-  };
-
   componentWillUnmount() {
     this._isMounted = false;
   }
 
   render() {
-    const { search_recipes, porIngrediente, filters, ingredients } = this.state;
+    const {
+      search_recipes,
+      porIngrediente,
+      filters,
+      ingredients,
+      show
+    } = this.state;
     let search;
     if (!porIngrediente) {
       search = (
@@ -193,93 +197,113 @@ class dashboard extends React.Component {
         </div>
       );
     }
-
-    return (
-      <div className="supercontainer">
-        <MenuAppBar />
+    let body;
+    if (show === true) {
+      body = (
         <div>
-          <ButtonGroup toggle className="mt-3">
-            <ToggleButton
-              id="button_selected"
-              type="radio"
-              name="radio"
-              defaultChecked
-              value="1"
-              onClick={this.handleButtonNombre}
-            >
-              Por Nombre
-            </ToggleButton>
-            <ToggleButton
-              id="button_selected"
-              type="radio"
-              name="radio"
-              value="2"
-              onClick={this.handleButtonIngrediente}
-            >
-              Por Ingrediente
-            </ToggleButton>
-          </ButtonGroup>
-        </div>
-        <div className="container2">
-          {search}
+          <MenuAppBar />
           <div>
-            <Row>
-              {search_recipes.map(search_recipe => (
-                <Col lg={4} key={search_recipe.id}>
-                  <div
-                    className="card my-3"
-                    style={{ width: "85%", margin: "auto" }}
-                  >
-                    <img
-                      className="d-block w-100"
-                      src={search_recipe.thumbnail}
-                      alt={search_recipe.nombre}
-                    />
-                    <div className="card-body">
-                      <Typography className="card-title" variant="h4">
-                        {search_recipe.name}
-                      </Typography>
-                      <Typography>
-                        Tiempo de preparacion {search_recipe.prep_time}
-                      </Typography>
-                      <Typography>
-                        Calorias {search_recipe.calories_ps}
-                      </Typography>
-                      <Typography>Servings {search_recipe.servings}</Typography>
-                      <Row className="justify-content-md-center d-flex flex-column my-3">
-                        <Rater
-                          total={5}
-                          rating={search_recipe.rating}
-                          interactive={false}
-                        />
-                      </Row>
-                      <Link
-                        to={`Info/${search_recipe.id}`}
-                        className="btn btn-primary"
-                      >
-                        Learn More
-                      </Link>
-                      <Link
-                        to={`Info/${search_recipe.id}`}
-                        className="btn btn-warning"
-                      >
-                        Favorite
-                      </Link>
+            <ButtonGroup toggle className="mt-3">
+              <ToggleButton
+                id="button_selected"
+                type="radio"
+                name="radio"
+                defaultChecked
+                value="1"
+                onClick={this.handleButtonNombre}
+              >
+                Por Nombre
+              </ToggleButton>
+              <ToggleButton
+                id="button_selected"
+                type="radio"
+                name="radio"
+                value="2"
+                onClick={this.handleButtonIngrediente}
+              >
+                Por Ingrediente
+              </ToggleButton>
+            </ButtonGroup>
+          </div>
+          <div className="container2">
+            {search}
+            <div>
+              <Row>
+                {search_recipes.map(search_recipe => (
+                  <Col lg={4} key={search_recipe.id}>
+                    <div
+                      className="card my-3"
+                      style={{ width: "85%", margin: "auto" }}
+                    >
+                      <img
+                        className="d-block w-100"
+                        src={search_recipe.thumbnail}
+                        alt={search_recipe.nombre}
+                      />
+                      <div className="card-body">
+                        <Typography className="card-title" variant="h4">
+                          {search_recipe.name}
+                        </Typography>
+                        <Typography>
+                          Tiempo de preparacion {search_recipe.prep_time}
+                        </Typography>
+                        <Typography>
+                          Calorias {search_recipe.calories_ps}
+                        </Typography>
+                        <Typography>
+                          Servings {search_recipe.servings}
+                        </Typography>
+                        <Row className="justify-content-md-center d-flex flex-column my-3">
+                          <Rater
+                            total={5}
+                            rating={search_recipe.rating}
+                            interactive={false}
+                          />
+                        </Row>
+                        <Link
+                          to={`Info/${search_recipe.id}`}
+                          className="btn btn-primary"
+                        >
+                          Learn More
+                        </Link>
+                        <Link
+                          to={`Info/${search_recipe.id}`}
+                          className="btn btn-warning"
+                        >
+                          Favorite
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          </div>
-          <div className="jumbotron text-center" id="head">
-            <img src={Title} alt="logo" className="img-fluid align-middle" />
-          </div>
-          <div id="rec">
-            <Recetas />
+                  </Col>
+                ))}
+              </Row>
+            </div>
+            <div className="jumbotron text-center" id="head">
+              <img src={Title} alt="logo" className="img-fluid align-middle" />
+            </div>
+            <div id="rec">
+              <Recetas />
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      body = (
+        <Alert variant="light" className="col-md-4 p-4 mx-auto my-auto">
+          <Alert.Heading>¡Vaya! parece que hubo un error</Alert.Heading>
+          <p>
+            Intenta ingresar a tu usuario desde aqui para poder visualizar esta pagina. Te dejamos el  link 
+            <Alert.Link><Link to='/'> por aqui.</Link></Alert.Link>
+          </p>
+          <hr />
+          <p className="mb-0">
+            Si todavia no lo haces acuerdate de registrarte!
+          </p>
+        </Alert>
+      );
+    }
+
+    return( <div className="supercontainer">{body}</div>);
   }
 }
 dashboard.propTypes = {
