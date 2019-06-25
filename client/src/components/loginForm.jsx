@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./loginForm.css";
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 class LoginForm extends Component {
   state = {
@@ -20,7 +21,11 @@ class LoginForm extends Component {
         email,
         password,
       });
-      if(response.data){
+      if(response.data.length > 0){
+        console.log(response.data);
+        const token = jwt_decode(response.data);
+        console.log(token);
+        localStorage.setItem('userToken', response.data);
         this.props.history.push('/Dashboard');
 
       } else{
