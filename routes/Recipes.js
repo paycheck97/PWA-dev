@@ -1,13 +1,40 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
 const pool = require("../database");
-const jwt = require("jsonwebtoken");
 
 router.get("/recipes", async (req, res) => {
   try {
     const recetas = await pool.query("SELECT * FROM recipe");
     res.json(recetas);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.post("/saved-recipes", async (req, res) => {
+  const { id_user } = req.body;
+  var saved_recipes = [];
+  var id_receta_salvada = null;
+  var aux_recetas = null;
+  console.log(id_user);
+  try {
+    const id_recetas = await pool.query(
+      "SELECT id_recipe FROM saves WHERE id_user = ?",
+      [id_user]
+    );
+    console.log(id_recetas);
+    id_recetas.map(async id_receta => {
+      id_receta_salvada = id_receta["id_recipe"];
+      console.log(id_receta_salvada)
+      aux_recetas = await pool.query("SELECT * FROM recipe WHERE id = ?", [
+        id_receta_salvada
+      ]);
+      saved_recipes.push(aux_recetas[0]);
+    },
+      console.log(saved_recipes)
+    );
+    res.json(saved_recipes)
+    
   } catch (e) {
     console.log(e);
   }
@@ -19,7 +46,7 @@ router.get("/ingredients", async (req, res) => {
     res.json(ingredientes);
   } catch (e) {
     console.log(e);
-    res.json(e)
+    res.json(e);
   }
 });
 
@@ -156,65 +183,6 @@ router.post("/update-recipe/:id", async (req, res) => {
     console.log(e);
   }
 });
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const verify = {
-    email,
-    password
-  };
-  console.log(verify.email);
-  console.log(verify.password);
-  try {
-    const check = await pool.query("SELECT * FROM user WHERE email = ?", [
-      email
-    ]);
-    console.log(check[0]["password"]);
-    if (check.length > 0) {
-      if (bcrypt.compareSync(verify.password, check[0]["password"])) {
-        console.log("success");
-        res.json(true);
-      } else {
-        console.log("success/fail");
-        res.json(false);
-      }
-    } else {
-      res.send("Existe un usuario con ese correo");
-      console.log("fail");
-    }
-  } catch (e) {
-    console.log(e);
-  }
-});
-
-//Regitro de Usuario
-router.post("/register", async (req, res) => {
-  const { email, name, last_name, password, answer } = req.body;
-
-  const newUser = {
-    email,
-    name,
-    last_name,
-    password,
-    password,
-    answer
-  };
-  try {
-    const check = await pool.query("SELECT * FROM user WHERE email = ?", [
-      email
-    ]);
-    if (check.length > 0) {
-      res.send("Existe un usuario con ese correo");
-      console.log("fail");
-    } else {
-      const hash = bcrypt.hashSync(newUser.password, 10);
-      newUser.password = hash;
-      await pool.query("INSERT INTO user set ?", [newUser]);
-      console.log("success");
-    }
-  } catch (e) {
-    console.log(e);
-  }
-});
 
 router.post("/change-rating/:id", async (req, res) => {
   const { rating } = req.body;
@@ -225,37 +193,6 @@ router.post("/change-rating/:id", async (req, res) => {
   } catch (e) {
     console.log(e);
   }
-  //Change password
-  router.post("/change-password", async (req, res) => {
-    const { email, password, answer } = req.body;
-
-    const newPass = {
-      email,
-      password,
-      answer
-    };
-    try {
-      const check = await pool.query(
-        "SELECT * FROM user WHERE email = ? AND answer = ?",
-        [email, answer]
-      );
-      if (check.length > 0) {
-        const hash = bcrypt.hashSync(newPass.password, 10);
-        newPass.password = hash;
-        await pool.query("UPDATE user set password = ? WHERE email = ?", [
-          newPass.password,
-          newPass.email
-        ]);
-        console.log("success");
-        res.send(true);
-      } else {
-        res.send(false);
-        console.log("fail");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  });
 });
 
 router.post("/add-ingredient", async (req, res) => {

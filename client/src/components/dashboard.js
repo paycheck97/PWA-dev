@@ -13,7 +13,7 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import MenuAppBar from "./navbar";
 import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
@@ -117,16 +117,29 @@ class dashboard extends React.Component {
 
   componentDidMount = event => {
     try {
-      axios.get("/ingredients").then(res => {
-        const ingredients = res.data;
-        this.setState({ ingredients });
-      }).catch(e =>
-        console.log(e)
-      );
+      axios
+        .get("/ingredients")
+        .then(res => {
+          const ingredients = res.data;
+          this.setState({ ingredients });
+        })
+        .catch(e => console.log(e));
     } catch (e) {
       alert(e);
     }
   };
+
+  componentWillMount = () => {
+    const token = localStorage.userToken;
+    if (token == null) {
+      this.props.history.push("/");
+      alert("Usted no ha iniciado sesion.");
+    }
+  };
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   render() {
     const { search_recipes, porIngrediente, filters, ingredients } = this.state;
@@ -226,6 +239,9 @@ class dashboard extends React.Component {
                       <Typography className="card-title" variant="h4">
                         {search_recipe.name}
                       </Typography>
+                      <Typography className="card-title" variant="h4">
+                        Autor: {search_recipe.author}
+                      </Typography>
                       <Typography>
                         Tiempo de preparacion {search_recipe.prep_time}
                       </Typography>
@@ -273,4 +289,4 @@ dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(dashboard);
+export default withRouter(withStyles(styles)(dashboard));

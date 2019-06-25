@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 //routes
-app.use(require("./routes/Recipes"));
+app.use(require("./routes/Recipes"), require("./routes/Auth"), require("./routes/User"));
 
 //servidor
 app.listen(app.get("port"), () => {

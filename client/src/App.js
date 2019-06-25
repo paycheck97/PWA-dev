@@ -17,7 +17,6 @@ import User from "./components/user";
 
 function App() {
   return (
-    
     <BrowserRouter>
       <div className="App">
         <Route exact path="/" component={Login} />
@@ -30,9 +29,7 @@ function App() {
         <Route path="/Ingredientes" component={Ingredientes} />
       </div>
     </BrowserRouter>
-   
   );
 }
 
 export default App;
-
