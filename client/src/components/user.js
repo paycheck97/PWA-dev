@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import "./user.css";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -7,12 +7,50 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Col from "react-bootstrap/Col";
 import MenuAppBar from "./navbar";
-import Recetas from "./recetasuser";
+import Recetas from "./saved-recipes";
 import Row from 'react-bootstrap/Row'
 import { Container } from "@material-ui/core";
+import jwt_decode from 'jwt-decode';
+import { withRouter } from "react-router-dom";
 
-const User = () => {
-  const bull = <span>•</span>;
+
+
+
+
+class User extends Component {
+
+  state = {
+    name: '',
+    last_name: ''
+  }
+
+  componentDidMount(){
+    const token = localStorage.userToken;
+    const decode = jwt_decode(token)
+    this.setState({
+      name: decode.name,
+      last_name: decode.last_name
+    })
+
+  }
+
+  componentWillMount = () => {
+    const token = localStorage.userToken;
+    if (token == null) {
+      this.props.history.push("/");
+      alert("Usted no ha iniciado sesion.");
+    }
+  };
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+
+  render(){
+    const bull = <span>•</span>;
+    const name = this.state.name;
+    const last_name = this.state.last_name;
   return (
     <>
       <MenuAppBar />
@@ -22,7 +60,7 @@ const User = () => {
           <Card id="carta">
           <CardContent>
             <Typography variant="h5" component="h2">
-              User{bull}Name{" "}
+              {name}{bull}{last_name}{" "}
             </Typography>
             <Typography component="p">
               "No hay amor mas sincero <br />
@@ -50,4 +88,6 @@ const User = () => {
   );
 };
 
-export default User;
+  }
+  
+export default withRouter(User);
