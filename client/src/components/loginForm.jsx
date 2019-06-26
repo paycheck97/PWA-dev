@@ -22,11 +22,14 @@ class LoginForm extends Component {
         password,
       });
       if(response.data.length > 0){
-        console.log(response.data);
         const token = jwt_decode(response.data);
-        console.log(token);
         localStorage.setItem('userToken', response.data);
-        this.props.history.push('/Dashboard');
+        if(token.state === 1){
+          this.props.history.push('/Admin');
+        }else{
+          this.props.history.push('/Dashboard');
+        }
+        
 
       } else{
         alert('Incorrect User or Password');

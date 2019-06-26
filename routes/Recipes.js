@@ -4,7 +4,7 @@ const pool = require("../database");
 
 router.get("/recipes", async (req, res) => {
   try {
-    const recetas = await pool.query("SELECT * FROM recipe");
+    const recetas = await pool.query("SELECT * FROM recipe ORDER BY rating DESC LIMIT 5");
     res.json(recetas);
   } catch (e) {
     console.log(e);
@@ -23,7 +23,7 @@ router.post("/saved-recipes", async (req, res) => {
       [id_user]
     );
     console.log(id_recetas);
-    id_recetas.map(async id_receta => {
+    const aux = id_recetas.map(async id_receta => {
       id_receta_salvada = id_receta["id_recipe"];
       console.log(id_receta_salvada)
       aux_recetas = await pool.query("SELECT * FROM recipe WHERE id = ?", [
@@ -31,9 +31,16 @@ router.post("/saved-recipes", async (req, res) => {
       ]);
       saved_recipes.push(aux_recetas[0]);
     },
-      console.log(saved_recipes)
+      
     );
-    res.json(saved_recipes)
+
+    Promise.all(aux).then( async () =>{
+      console.log(saved_recipes)
+      res.json(saved_recipes)
+    }
+      
+    )
+    
     
   } catch (e) {
     console.log(e);
