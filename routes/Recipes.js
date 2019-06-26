@@ -141,6 +141,23 @@ router.post("/search-recipes", async (req, res) => {
     console.log("failure");
   }
 });
+
+//buscar por valoracion
+router.post("/search-recipes-val", async (req, res) => {
+  var { rating } = req.body;
+  
+  try {
+    const reci = await pool.query("SELECT * FROM recipe WHERE rating >= ? ", [
+      rating
+    ]);
+    console.log(rating);
+    
+    res.json(reci);
+  } catch (e) {
+    console.log("failure");
+  }
+});
+
 //Agregar Receta
 router.post("/add-recipe", async (req, res) => {
   const {

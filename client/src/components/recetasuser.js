@@ -8,23 +8,26 @@ import { Typography } from "@material-ui/core";
 import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
 import axios from "axios";
-import jwt_decode from 'jwt-decode';
+import jwt_decode from "jwt-decode";
 
 class prueba extends Component {
   state = {
     recetas: [],
     receta_id: null,
     rating: null,
-    userID: null,
+    userID: null
   };
 
   componentDidMount = event => {
     const token = localStorage.userToken;
-    const decode = jwt_decode(token)
-    this.setState({
-      userID: decode.id,
-    }, ()=> console.log(this.state.userID));
-    
+    const decode = jwt_decode(token);
+    this.setState(
+      {
+        userID: decode.id
+      },
+      () => console.log(this.state.userID)
+    );
+
     try {
       axios.get("/recipes").then(res => {
         const recetas = res.data;
@@ -35,22 +38,25 @@ class prueba extends Component {
     }
   };
 
-  favRecipe = (id_recipe) => {
+  favRecipe = id_recipe => {
     const id_user = this.state.userID;
-    try{
-    axios.post("/fav-recipe", {
-      id_recipe,
-      id_user
-    }).then(res => {
-      alert(res.data);
-    });
-  } catch (e) {
-    alert(e);
-  }
-  }
+    try {
+      axios
+        .post("/fav-recipe", {
+          id_recipe,
+          id_user
+        })
+        .then(res => {
+          alert(res.data);
+        });
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   render() {
     const { recetas } = this.state;
+
     return (
       <div className="container text-center">
         <div className="row mx-auto my-auto">
@@ -66,7 +72,10 @@ class prueba extends Component {
                     />
                     <div className="card-body justify-content-md-center">
                       <Typography variant="h4">{receta.name}</Typography>
-                      <Typography variant="h4">Autor: {receta.author}</Typography>
+                      <Typography variant="h6">
+                        Autor: {receta.author}
+                      </Typography>
+
                       <Typography>
                         Tiempo de preparacion {receta.prep_time}
                       </Typography>

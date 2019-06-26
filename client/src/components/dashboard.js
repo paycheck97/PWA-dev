@@ -26,19 +26,24 @@ class dashboard extends React.Component {
   state = {
     recetas: [],
     name: "",
+    rating: null,
     filters: [],
     search_recipes: [],
-    porIngrediente: true,
-    ingredients: [],
-    show: false
+
+    porFiltro: 1,
+    ingredients: []
   };
   handleButtonIngrediente = () => {
-    this.setState({ porIngrediente: true });
-    console.log(this.state.porIngrediente);
+    this.setState({ porFiltro: 2 });
+    console.log(this.state.porFiltro);
   };
   handleButtonNombre = () => {
-    this.setState({ porIngrediente: false });
-    console.log(this.state.porIngrediente);
+    this.setState({ porFiltro: 1 });
+    console.log(this.state.porFiltro);
+  };
+  handleButtonRating = () => {
+    this.setState({ porFiltro: 3 });
+    console.log(this.state.porFiltro);
   };
 
   removeFilter = filter => {
@@ -83,6 +88,28 @@ class dashboard extends React.Component {
       alert("Ingrese un nombre antes");
     }
   };
+  mySubmitHandlerRating = async event => {
+    const { rating } = this.state;
+    console.log(rating);
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity() === true) {
+      try {
+        const response = axios
+          .post("/search-recipes-val", { rating })
+          .then(res => {
+            const search_recipes = res.data;
+            this.setState({ search_recipes });
+            console.log(this.state.search_recipes);
+          });
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert("Ingrese un rating antes");
+    }
+  };
   mySubmitHandler_ingr = async event => {
     var { filters, name } = this.state;
     var check = true;
@@ -115,6 +142,8 @@ class dashboard extends React.Component {
     let nam = event.target.name;
     let val = event.target.value;
     this.setState({ [nam]: val });
+    console.log(nam);
+    console.log(val);
   };
 
   componentDidMount = event => {
@@ -142,13 +171,33 @@ class dashboard extends React.Component {
   render() {
     const {
       search_recipes,
-      porIngrediente,
+      porFiltro,
       filters,
       ingredients,
       show
     } = this.state;
+
     let search;
-    if (!porIngrediente) {
+    if (porFiltro === 3) {
+      search = (
+        <div>
+          <Form id="search" onSubmit={this.mySubmitHandlerRating} noValidate>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="number"
+                placeholder="Choose by Rating (1-5)"
+                onChange={this.myChangeHandler}
+                name="rating"
+                required
+              />
+            </Form.Group>
+            <Button variant="light" type="submit">
+              Search
+            </Button>
+          </Form>
+        </div>
+      );
+    } else if (porFiltro === 1) {
       search = (
         <div>
           <Form id="search" onSubmit={this.mySubmitHandler} noValidate>
@@ -200,10 +249,9 @@ class dashboard extends React.Component {
     let body;
     if (show === true) {
       body = (
-        <div>
-          <MenuAppBar />
+        <>
           <div>
-
+            <MenuAppBar />
             <ButtonGroup toggle className="mt-3">
               <ToggleButton
                 id="button_selected"
@@ -224,78 +272,95 @@ class dashboard extends React.Component {
               >
                 Por Ingrediente
               </ToggleButton>
+              <ToggleButton
+                id="button_selected"
+                type="radio"
+                name="radio"
+                value="3"
+                onClick={this.handleButtonRating}
+              >
+                Por Rating
+              </ToggleButton>
             </ButtonGroup>
-
           </div>
           <div className="container2">
-            {search}
-            <div>
-              <Row>
-                {search_recipes.map(search_recipe => (
-                  <Col lg={4} key={search_recipe.id}>
-                    <div
-                      className="card my-3"
-                      style={{ width: "85%", margin: "auto" }}
-                    >
-                      <img
-                        className="d-block w-100"
-                        src={search_recipe.thumbnail}
-                        alt={search_recipe.nombre}
-                      />
-                      <div className="card-body">
-                        <Typography className="card-title" variant="h4">
-                          {search_recipe.name}
-                        </Typography>
-                        <Typography>
-                          Tiempo de preparacion {search_recipe.prep_time}
-                        </Typography>
-                        <Typography>
-                          Calorias {search_recipe.calories_ps}
-                        </Typography>
-                        <Typography>
-                          Servings {search_recipe.servings}
-                        </Typography>
-                        <Row className="justify-content-md-center d-flex flex-column my-3">
-                          <Rater
-                            total={5}
-                            rating={search_recipe.rating}
-                            interactive={false}
-                          />
-                        </Row>
-                        <Link
-                          to={`Info/${search_recipe.id}`}
-                          className="btn btn-primary"
-                        >
-                          Learn More
-                        </Link>
-                        <Link
-                          to={`Info/${search_recipe.id}`}
-                          className="btn btn-warning"
-                        >
-                          Favorite
-                        </Link>
+            <div className="container2">
+              {search}
+              <div>
+                <Row>
+                  {search_recipes.map(search_recipe => (
+                    <Col lg={4} key={search_recipe.id}>
+                      <div
+                        className="card my-3"
+                        style={{ width: "85%", margin: "auto" }}
+                      >
+                        <img
+                          className="d-block w-100"
+                          src={search_recipe.thumbnail}
+                          alt={search_recipe.nombre}
+                        />
+                        <div className="card-body">
+                          <Typography className="card-title" variant="h4">
+                            {search_recipe.name}
+                          </Typography>
+                          <Typography>
+                            Tiempo de preparacion {search_recipe.prep_time}
+                          </Typography>
+                          <Typography>
+                            Calorias {search_recipe.calories_ps}
+                          </Typography>
+                          <Typography>
+                            Servings {search_recipe.servings}
+                          </Typography>
+                          <Row className="justify-content-md-center d-flex flex-column my-3">
+                            <Rater
+                              total={5}
+                              rating={search_recipe.rating}
+                              interactive={false}
+                            />
+                          </Row>
+                          <Link
+                            to={`Info/${search_recipe.id}`}
+                            className="btn btn-primary"
+                          >
+                            Learn More
+                          </Link>
+                          <Link
+                            to={`Info/${search_recipe.id}`}
+                            className="btn btn-warning"
+                          >
+                            Favorite
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  </Col>
-                ))}
-              </Row>
-            </div>
-            <div className="jumbotron text-center" id="head">
-              <img src={Title} alt="logo" className="img-fluid align-middle" />
-            </div>
-            <div id="rec">
-              <Recetas />
+                    </Col>
+                  ))}
+                </Row>
+              </div>
+              <div className="jumbotron text-center" id="head">
+                <img
+                  src={Title}
+                  alt="logo"
+                  className="img-fluid align-middle"
+                />
+              </div>
+              <div id="rec">
+                <Recetas />
+              </div>
             </div>
           </div>
-        </div>
+        </>
       );
     } else {
       body = (
         <Alert variant="light" className="col-md-4 p-4 mx-auto my-auto">
           <Alert.Heading>¡Vaya! parece que hubo un error</Alert.Heading>
           <p>
-            Intenta ingresar a tu usuario desde aqui para poder visualizar esta pagina. Te dejamos el  link 
-            <Alert.Link><Link to='/'> por aqui.</Link></Alert.Link>
+            Intenta ingresar a tu usuario desde aqui para poder visualizar esta
+            pagina. Te dejamos el link
+            <Alert.Link>
+              <Link to="/"> por aqui.</Link>
+            </Alert.Link>
           </p>
           <hr />
           <p className="mb-0">
@@ -305,7 +370,7 @@ class dashboard extends React.Component {
       );
     }
 
-    return( <div className="supercontainer">{body}</div>);
+    return <div className="supercontainer">{body}</div>;
   }
 }
 dashboard.propTypes = {
