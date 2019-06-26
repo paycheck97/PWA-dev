@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import MenuAppBar from "./navbar_admin";
 import axios from "axios";
+import jwt_decode from 'jwt-decode';
 
 class edit extends Component {
   state = {
@@ -14,7 +15,8 @@ class edit extends Component {
     prep_time: "",
     servings: "",
     calories_ps: "",
-    thumbnail: ""
+    thumbnail: "",
+    author: "",
   };
   mySubmitHandler = async event => {
     const {
@@ -23,7 +25,8 @@ class edit extends Component {
       prep_time,
       servings,
       calories_ps,
-      thumbnail
+      thumbnail, 
+      author
     } = this.state;
     try {
       const response = await axios.post("/add-recipe", {
@@ -32,7 +35,8 @@ class edit extends Component {
         prep_time,
         servings,
         calories_ps,
-        thumbnail
+        thumbnail, 
+        author
       });
       console.log(response);
     } catch (err) {
@@ -47,11 +51,21 @@ class edit extends Component {
   };
 
   componentDidMount() {
+    const token = localStorage.userToken;
+    const decode = jwt_decode(token);
+    const name = decode.name;
+    const last_name = decode.last_name;
+    const author = name + " " + last_name;
     fetch("/ingredients")
       .then(res => res.json())
       .then(ingredientes =>
-        this.setState({ ingredientes }, () =>
-          console.log("Fetch realizado", ingredientes)
+        this.setState({ 
+          ingredientes,
+          author,
+        }, () =>
+          console.log("Fetch realizado", ingredientes),
+          console.log("Fetch realizado", last_name),
+          console.log("Fetch realizado", author)
         )
       );
   }

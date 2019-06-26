@@ -66,6 +66,7 @@ class prueba extends Component {
                     />
                     <div className="card-body justify-content-md-center">
                       <Typography variant="h4">{receta.name}</Typography>
+                      <Typography variant="h4">Autor: {receta.author}</Typography>
                       <Typography>
                         Tiempo de preparacion {receta.prep_time}
                       </Typography>

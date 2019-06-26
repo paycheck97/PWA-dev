@@ -203,6 +203,7 @@ class dashboard extends React.Component {
         <div>
           <MenuAppBar />
           <div>
+
             <ButtonGroup toggle className="mt-3">
               <ToggleButton
                 id="button_selected"
@@ -224,6 +225,7 @@ class dashboard extends React.Component {
                 Por Ingrediente
               </ToggleButton>
             </ButtonGroup>
+
           </div>
           <div className="container2">
             {search}

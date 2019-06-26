@@ -149,7 +149,8 @@ router.post("/add-recipe", async (req, res) => {
     prep_time,
     servings,
     calories_ps,
-    thumbnail
+    thumbnail,
+    author
   } = req.body;
 
   const newRecipe = {
@@ -158,7 +159,8 @@ router.post("/add-recipe", async (req, res) => {
     prep_time,
     servings,
     calories_ps,
-    thumbnail
+    thumbnail,
+    author
   };
   try {
     await pool.query("INSERT INTO recipe set ?", [newRecipe]);
@@ -186,6 +188,27 @@ router.post("/update-recipe/:id", async (req, res) => {
   };
   try {
     await pool.query("UPDATE recipe set ? WHERE id = ?", [updateRecipe, id]);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.post("/change-rating/:id", async (req, res) => {
+  const { rating } = req.body;
+  const { id } = req.params;
+  console.log(id);
+  try {
+    await pool.query("UPDATE recipe SET rating = ? WHERE id = ?", [rating, id]);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.post("/delete-recipe/:id", async (req, res) => {
+  const { id } = req.params;
+ 
+  try {
+    await pool.query("DELETE FROM recipe WHERE id = ?", [id]);
   } catch (e) {
     console.log(e);
   }
