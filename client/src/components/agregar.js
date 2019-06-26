@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import MenuAppBar from "./navbar_admin";
 import axios from "axios";
+import jwt_decode from 'jwt-decode';
 
 class edit extends Component {
   state = {
@@ -50,11 +51,21 @@ class edit extends Component {
   };
 
   componentDidMount() {
+    const token = localStorage.userToken;
+    const decode = jwt_decode(token);
+    const name = decode.name;
+    const last_name = decode.last_name;
+    const author = name + " " + last_name;
     fetch("/ingredients")
       .then(res => res.json())
       .then(ingredientes =>
-        this.setState({ ingredientes }, () =>
-          console.log("Fetch realizado", ingredientes)
+        this.setState({ 
+          ingredientes,
+          author,
+        }, () =>
+          console.log("Fetch realizado", ingredientes),
+          console.log("Fetch realizado", last_name),
+          console.log("Fetch realizado", author)
         )
       );
   }
@@ -76,17 +87,6 @@ class edit extends Component {
                 placeholder={"Nombre Receta"}
                 onChange={this.myChangeHandler}
                 name="name"
-              />
-            </Form.Group>
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label>
-                <h3>{this.state.author}</h3>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder={"Autor Receta"}
-                onChange={this.myChangeHandler}
-                name="author"
               />
             </Form.Group>
             <Form.Label>

@@ -4,7 +4,7 @@ const pool = require("../database");
 
 router.get("/recipes", async (req, res) => {
   try {
-    const recetas = await pool.query("SELECT * FROM recipe");
+    const recetas = await pool.query("SELECT * FROM recipe ORDER BY rating DESC LIMIT 5");
     res.json(recetas);
   } catch (e) {
     console.log(e);
@@ -23,7 +23,7 @@ router.post("/saved-recipes", async (req, res) => {
       [id_user]
     );
     console.log(id_recetas);
-    id_recetas.map(async id_receta => {
+    const aux = id_recetas.map(async id_receta => {
       id_receta_salvada = id_receta["id_recipe"];
       console.log(id_receta_salvada)
       aux_recetas = await pool.query("SELECT * FROM recipe WHERE id = ?", [
@@ -31,9 +31,16 @@ router.post("/saved-recipes", async (req, res) => {
       ]);
       saved_recipes.push(aux_recetas[0]);
     },
-      console.log(saved_recipes)
+      
     );
-    res.json(saved_recipes)
+
+    Promise.all(aux).then( async () =>{
+      console.log(saved_recipes)
+      res.json(saved_recipes)
+    }
+      
+    )
+    
     
   } catch (e) {
     console.log(e);
@@ -134,6 +141,23 @@ router.post("/search-recipes", async (req, res) => {
     console.log("failure");
   }
 });
+
+//buscar por valoracion
+router.post("/search-recipes-val", async (req, res) => {
+  var { rating } = req.body;
+  
+  try {
+    const reci = await pool.query("SELECT * FROM recipe WHERE rating >= ? ", [
+      rating
+    ]);
+    console.log(rating);
+    
+    res.json(reci);
+  } catch (e) {
+    console.log("failure");
+  }
+});
+
 //Agregar Receta
 router.post("/add-recipe", async (req, res) => {
   const {
@@ -142,7 +166,8 @@ router.post("/add-recipe", async (req, res) => {
     prep_time,
     servings,
     calories_ps,
-    thumbnail
+    thumbnail,
+    author
   } = req.body;
 
   const newRecipe = {
@@ -151,7 +176,8 @@ router.post("/add-recipe", async (req, res) => {
     prep_time,
     servings,
     calories_ps,
-    thumbnail
+    thumbnail,
+    author
   };
   try {
     await pool.query("INSERT INTO recipe set ?", [newRecipe]);
@@ -179,6 +205,27 @@ router.post("/update-recipe/:id", async (req, res) => {
   };
   try {
     await pool.query("UPDATE recipe set ? WHERE id = ?", [updateRecipe, id]);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.post("/change-rating/:id", async (req, res) => {
+  const { rating } = req.body;
+  const { id } = req.params;
+  console.log(id);
+  try {
+    await pool.query("UPDATE recipe SET rating = ? WHERE id = ?", [rating, id]);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.post("/delete-recipe/:id", async (req, res) => {
+  const { id } = req.params;
+ 
+  try {
+    await pool.query("DELETE FROM recipe WHERE id = ?", [id]);
   } catch (e) {
     console.log(e);
   }
