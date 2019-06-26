@@ -25,18 +25,23 @@ class dashboard extends React.Component {
   state = {
     recetas: [],
     name: "",
+    rating: null,
     filters: [],
     search_recipes: [],
-    porIngrediente: true,
+    porFiltro: 1,
     ingredients: []
   };
   handleButtonIngrediente = () => {
-    this.setState({ porIngrediente: true });
-    console.log(this.state.porIngrediente);
+    this.setState({ porFiltro: 2 });
+    console.log(this.state.porFiltro);
   };
   handleButtonNombre = () => {
-    this.setState({ porIngrediente: false });
-    console.log(this.state.porIngrediente);
+    this.setState({ porFiltro: 1 });
+    console.log(this.state.porFiltro);
+  };
+  handleButtonRating = () => {
+    this.setState({ porFiltro: 3 });
+    console.log(this.state.porFiltro);
   };
 
   removeFilter = filter => {
@@ -81,7 +86,27 @@ class dashboard extends React.Component {
       alert("Ingrese un nombre antes");
     }
   };
-  mySubmitHandler_ingr = async event => {
+  mySubmitHandlerRating = async event => {
+    const { rating } = this.state;
+    console.log(rating);
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity() === true) {
+      try {
+        const response = axios.post("/search-recipes-val", { rating }).then(res => {
+          const search_recipes = res.data;
+          this.setState({ search_recipes });
+          console.log(this.state.search_recipes);
+        });
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert("Ingrese un rating antes");
+    }
+  };
+  mySubmitHandler_ingr = async event => {  
     var { filters, name } = this.state;
     var check = true;
     event.preventDefault();
@@ -113,6 +138,8 @@ class dashboard extends React.Component {
     let nam = event.target.name;
     let val = event.target.value;
     this.setState({ [nam]: val });
+    console.log(nam);
+    console.log(val);
   };
 
   componentDidMount = event => {
@@ -142,9 +169,29 @@ class dashboard extends React.Component {
   }
 
   render() {
-    const { search_recipes, porIngrediente, filters, ingredients } = this.state;
+    const { search_recipes, porFiltro, filters, ingredients } = this.state;
     let search;
-    if (!porIngrediente) {
+    if (porFiltro === 3) {
+      search = (
+        <div>
+          <Form id="search" onSubmit={this.mySubmitHandlerRating} noValidate>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="number"
+                placeholder="Choose by Rating (1-5)"
+                onChange={this.myChangeHandler}
+                name="rating"
+                required
+              />
+            </Form.Group>
+            <Button variant="light" type="submit">
+              Search
+            </Button>
+          </Form>
+        </div>
+      );
+    } 
+    else if (porFiltro === 1){
       search = (
         <div>
           <Form id="search" onSubmit={this.mySubmitHandler} noValidate>
@@ -163,7 +210,8 @@ class dashboard extends React.Component {
           </Form>
         </div>
       );
-    } else {
+    }
+    else {
       search = (
         <div className=" my-3">
           {filters.map(filter => (
@@ -217,6 +265,15 @@ class dashboard extends React.Component {
               onClick={this.handleButtonIngrediente}
             >
               Por Ingrediente
+            </ToggleButton>
+            <ToggleButton
+              id="button_selected"
+              type="radio"
+              name="radio"
+              value="3"
+              onClick={this.handleButtonRating}
+            >
+              Por Rating
             </ToggleButton>
           </ButtonGroup>
         </div>
