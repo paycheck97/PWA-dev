@@ -75,6 +75,7 @@ router.post("/register", async (req, res) => {
         expiresIn: 1440
       });
       console.log(token);
+      res.json("Haz creado un nuevo usuario.");
     }
   } catch (e) {
     console.log(e);
