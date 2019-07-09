@@ -167,9 +167,10 @@ router.post("/add-recipe", async (req, res) => {
     servings,
     calories_ps,
     thumbnail,
-    author
+    author, 
+    filters
   } = req.body;
-
+  
   const newRecipe = {
     name,
     instructions,
@@ -181,6 +182,18 @@ router.post("/add-recipe", async (req, res) => {
   };
   try {
     await pool.query("INSERT INTO recipe set ?", [newRecipe]);
+    const receta_guardada = await pool.query('Select * FROM recipe WHERE name = ?', [name]);
+    const id_recipe = receta_guardada[0]['id']
+    filters.map(async filter =>{
+      console.log(filter);
+      const ingrediente = await pool.query('SELECT * FROM ingredient WHERE name = ?', filter);
+      const id_ingredient = ingrediente[0]['id'];
+      const newSearch = {
+        id_recipe, 
+        id_ingredient
+      };
+      await pool.query('INSERT INTO search SET ?', [newSearch])
+    })
   } catch (e) {}
 });
 
