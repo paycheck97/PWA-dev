@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import MenuAppBar from "./navbar_admin";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-
+import Chip from "@material-ui/core/Chip";
 /**
  * Agregar Recetas
  * @visibleName Admin/Agregar
@@ -21,7 +21,9 @@ class edit extends Component {
     servings: "",
     calories_ps: "",
     thumbnail: "",
-    author: ""
+    author: "",
+    filters: [],
+    ingre: ""
   };
 
   /**
@@ -38,7 +40,8 @@ class edit extends Component {
       servings,
       calories_ps,
       thumbnail,
-      author
+      author,
+      filters
     } = this.state;
     try {
       const response = await axios.post("/add-recipe", {
@@ -48,13 +51,32 @@ class edit extends Component {
         servings,
         calories_ps,
         thumbnail,
-        author
+        author,
+        filters
       });
       console.log(response);
+      alert(response);
     } catch (err) {
       console.log(err);
+      alert(err);
     }
-    alert(this.state.nombre + this.state.metodo);
+  };
+
+  mySubmitHandler_ingr = async event => {
+    var { filters, ingre } = this.state;
+    var check = true;
+    event.preventDefault();
+    // eslint-disable-next-line array-callback-return
+    filters.map(filter => {
+      if (filter === ingre) {
+        check = false;
+      }
+    });
+    if (check === true) {
+      this.setState({ filters: this.state.filters.concat(ingre) }, () => {
+        filters = this.state.filters;
+      });
+    }
   };
 
   /**
@@ -91,7 +113,7 @@ class edit extends Component {
   }
 
   render() {
-    const { ingredientes } = this.state;
+    const { ingredientes, filters } = this.state;
     return (
       <div>
         <MenuAppBar />
@@ -113,18 +135,32 @@ class edit extends Component {
               <h3>Ingredientes</h3>
             </Form.Label>
             {this.state.ingre_selec}
-            <Form.Group controlId="exampleForm.ControlSelect1">
-              {ingredientes.map(ingrediente => (
-                <Form.Check
-                  inline
-                  label={ingrediente.name}
-                  key={ingrediente.id}
-                  onChange={this.myChangeHandler}
-                  value={ingrediente.name}
-                  name="ingre_select"
+            <div className=" my-3">
+              {filters.map(filter => (
+                <Chip
+                  label={filter}
+                  key={filter}
+                  onDelete={() => this.removeFilter({ filter })}
                 />
               ))}
-            </Form.Group>
+              <Form id="search" onSubmit={this.mySubmitHandler_ingr}>
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Control
+                    type="text"
+                    onChange={this.myChangeHandler}
+                    name="ingre"
+                    as="select"
+                  >
+                    {ingredientes.map(ingredient => (
+                      <option key={ingredient.id}>{ingredient.name}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Button variant="light" type="submit">
+                  Agregar ingrediente
+                </Button>
+              </Form>
+            </div>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label>
                 <h3>Metodo de preparacion</h3>
