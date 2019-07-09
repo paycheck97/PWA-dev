@@ -4,7 +4,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import MenuAppBar from "./navbar_admin";
 import axios from "axios";
-import jwt_decode from 'jwt-decode';
+import jwt_decode from "jwt-decode";
+import Chip from "@material-ui/core/Chip";
 
 class edit extends Component {
   state = {
@@ -17,6 +18,7 @@ class edit extends Component {
     calories_ps: "",
     thumbnail: "",
     author: "",
+    filters: []
   };
   mySubmitHandler = async event => {
     const {
@@ -25,8 +27,9 @@ class edit extends Component {
       prep_time,
       servings,
       calories_ps,
-      thumbnail, 
-      author
+      thumbnail,
+      author,
+      filters
     } = this.state;
     try {
       const response = await axios.post("/add-recipe", {
@@ -35,14 +38,33 @@ class edit extends Component {
         prep_time,
         servings,
         calories_ps,
-        thumbnail, 
-        author
+        thumbnail,
+        author,
+        filters
       });
       console.log(response);
     } catch (err) {
       console.log(err);
     }
     alert(this.state.nombre + this.state.metodo);
+  };
+
+  mySubmitHandler_ingr = async event => {
+    var { filters, name } = this.state;
+    var check = true;
+    event.preventDefault();
+    // eslint-disable-next-line array-callback-return
+    filters.map(filter => {
+      if (filter === name) {
+        check = false;
+      }
+    });
+    if (check === true) {
+      this.setState({ filters: this.state.filters.concat(name) }, () => {
+        filters = this.state.filters;
+        
+      });
+    }
   };
   myChangeHandler = event => {
     let nam = event.target.name;
@@ -59,11 +81,12 @@ class edit extends Component {
     fetch("/ingredients")
       .then(res => res.json())
       .then(ingredientes =>
-        this.setState({ 
-          ingredientes,
-          author,
-        }, () =>
-          console.log("Fetch realizado", ingredientes),
+        this.setState(
+          {
+            ingredientes,
+            author
+          },
+          () => console.log("Fetch realizado", ingredientes),
           console.log("Fetch realizado", last_name),
           console.log("Fetch realizado", author)
         )
@@ -71,7 +94,7 @@ class edit extends Component {
   }
 
   render() {
-    const { ingredientes } = this.state;
+    const { ingredientes, filters } = this.state;
     return (
       <div>
         <MenuAppBar />
@@ -93,18 +116,32 @@ class edit extends Component {
               <h3>Ingredientes</h3>
             </Form.Label>
             {this.state.ingre_selec}
-            <Form.Group controlId="exampleForm.ControlSelect1">
-              {ingredientes.map(ingrediente => (
-                <Form.Check
-                  inline
-                  label={ingrediente.name}
-                  key={ingrediente.id}
-                  onChange={this.myChangeHandler}
-                  value={ingrediente.name}
-                  name="ingre_select"
+            <div className=" my-3">
+              {filters.map(filter => (
+                <Chip
+                  label={filter}
+                  key={filter}
+                  onDelete={() => this.removeFilter({ filter })}
                 />
               ))}
-            </Form.Group>
+              <Form id="search" onSubmit={this.mySubmitHandler_ingr}>
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Control
+                    type="text"
+                    onChange={this.myChangeHandler}
+                    name="name"
+                    as="select"
+                  >
+                    {ingredientes.map(ingredient => (
+                      <option key={ingredient.id}>{ingredient.name}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Button variant="light" type="submit">
+                  Agregar ingrediente
+                </Button>
+              </Form>
+            </div>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label>
                 <h3>Metodo de preparacion</h3>
