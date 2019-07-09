@@ -18,7 +18,8 @@ class edit extends Component {
     calories_ps: "",
     thumbnail: "",
     author: "",
-    filters: []
+    filters: [],
+    ingre: ""
   };
   mySubmitHandler = async event => {
     const {
@@ -43,24 +44,26 @@ class edit extends Component {
         filters
       });
       console.log(response);
+      alert(response);
     } catch (err) {
       console.log(err);
+      alert(err)
     }
-    alert(this.state.nombre + this.state.metodo);
+    
   };
 
   mySubmitHandler_ingr = async event => {
-    var { filters, name } = this.state;
+    var { filters, ingre } = this.state;
     var check = true;
     event.preventDefault();
     // eslint-disable-next-line array-callback-return
     filters.map(filter => {
-      if (filter === name) {
+      if (filter === ingre) {
         check = false;
       }
     });
     if (check === true) {
-      this.setState({ filters: this.state.filters.concat(name) }, () => {
+      this.setState({ filters: this.state.filters.concat(ingre) }, () => {
         filters = this.state.filters;
         
       });
@@ -129,7 +132,7 @@ class edit extends Component {
                   <Form.Control
                     type="text"
                     onChange={this.myChangeHandler}
-                    name="name"
+                    name="ingre"
                     as="select"
                   >
                     {ingredientes.map(ingredient => (
