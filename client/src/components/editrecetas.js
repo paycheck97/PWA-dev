@@ -5,14 +5,15 @@ import { withStyles } from "@material-ui/core/styles";
 import Edit from "./edit";
 import MenuAppBar from "./navbar_admin";
 
-const styles = theme => ({
-  
-});
+const styles = theme => ({});
+
+/**
+ * Contiene a Edit + el Navbar.
+ * @visibleName Container/Admin/Edit
+ */
 
 class dashboard extends Component {
-  state = {
-   
-  };
+  state = {};
 
   render() {
     return (

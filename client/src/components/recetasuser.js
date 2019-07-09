@@ -10,6 +10,11 @@ import "react-rater/lib/react-rater.css";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
+/**
+ * Display recetas a los Usuarios.
+ * @visibleName User/Recetas
+ */
+
 class prueba extends Component {
   state = {
     recetas: [],
@@ -72,9 +77,7 @@ class prueba extends Component {
                     />
                     <div className="card-body justify-content-md-center">
                       <Typography variant="h4">{receta.name}</Typography>
-                      <Typography variant="h6">
-                        Autor: {receta.author}
-                      </Typography>
+                      <Typography variant="h6">{receta.author}</Typography>
 
                       <Typography>
                         Tiempo de preparacion {receta.prep_time}

@@ -4,7 +4,12 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import MenuAppBar from "./navbar_admin";
 import axios from "axios";
-import jwt_decode from 'jwt-decode';
+import jwt_decode from "jwt-decode";
+
+/**
+ * Agregar Recetas
+ * @visibleName Admin/Agregar
+ */
 
 class edit extends Component {
   state = {
@@ -16,8 +21,15 @@ class edit extends Component {
     servings: "",
     calories_ps: "",
     thumbnail: "",
-    author: "",
+    author: ""
   };
+
+  /**
+   * Maneja informacion luego del submit del form.
+   *
+   * @param {event} event
+   * @public
+   */
   mySubmitHandler = async event => {
     const {
       name,
@@ -25,7 +37,7 @@ class edit extends Component {
       prep_time,
       servings,
       calories_ps,
-      thumbnail, 
+      thumbnail,
       author
     } = this.state;
     try {
@@ -35,7 +47,7 @@ class edit extends Component {
         prep_time,
         servings,
         calories_ps,
-        thumbnail, 
+        thumbnail,
         author
       });
       console.log(response);
@@ -44,6 +56,13 @@ class edit extends Component {
     }
     alert(this.state.nombre + this.state.metodo);
   };
+
+  /**
+   * Detecta cambios en los inputs.
+   *
+   * @param {event} event
+   * @public
+   */
   myChangeHandler = event => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -59,11 +78,12 @@ class edit extends Component {
     fetch("/ingredients")
       .then(res => res.json())
       .then(ingredientes =>
-        this.setState({ 
-          ingredientes,
-          author,
-        }, () =>
-          console.log("Fetch realizado", ingredientes),
+        this.setState(
+          {
+            ingredientes,
+            author
+          },
+          () => console.log("Fetch realizado", ingredientes),
           console.log("Fetch realizado", last_name),
           console.log("Fetch realizado", author)
         )

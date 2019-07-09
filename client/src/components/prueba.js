@@ -5,7 +5,10 @@ import Carousel from "react-bootstrap/Carousel";
 import { Typography } from "@material-ui/core";
 //import {Consumer} from './context';
 
-
+/**
+ * Carrusel con recetas.
+ * @visibleName Carrusel
+ */
 class prueba extends Component {
   state = {
     recetas: [],
@@ -22,12 +25,10 @@ class prueba extends Component {
       );
   }
 
-  
-
   render() {
     const { recetas } = this.state;
-          return (
-            <div className="container text-center my-3">
+    return (
+      <div className="container text-center my-3">
         <div className="row mx-auto my-auto">
           <div>
             <Carousel indicators={false}>
@@ -40,12 +41,21 @@ class prueba extends Component {
                       alt={receta.nombre}
                     />
                     <div className="card-body">
-                      <Typography variant="h4"className="card-title">{receta.name}</Typography>
-                      <Typography variant="h6">Autor: {receta.author}</Typography>
-                      <Typography>Tiempo de preparacion {receta.prep_time}</Typography>
+                      <Typography variant="h4" className="card-title">
+                        {receta.name}
+                      </Typography>
+                      <Typography variant="h6">
+                        Autor: {receta.author}
+                      </Typography>
+                      <Typography>
+                        Tiempo de preparacion {receta.prep_time}
+                      </Typography>
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
-                      <Link to={`Edit/${receta.id}`} className="btn btn-primary" >
+                      <Link
+                        to={`Edit/${receta.id}`}
+                        className="btn btn-primary"
+                      >
                         Edit
                       </Link>
                     </div>
@@ -56,7 +66,7 @@ class prueba extends Component {
           </div>
         </div>
       </div>
-          )
+    );
   }
 }
 
