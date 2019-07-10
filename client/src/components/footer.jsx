@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 
+/**
+ * Footer del Login.
+ * @visibleName Login/Footer
+ */
 
 class Footer extends Component {
   styles = {

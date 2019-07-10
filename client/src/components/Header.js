@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import logo from "../img/logo-maroon.png";
 import "./header.css";
 
+/**
+ * Header de la vista del Login + el Logo.
+ * @visibleName Login/Header
+ */
+
 class Header extends Component {
   render() {
     return (

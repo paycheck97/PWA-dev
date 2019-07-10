@@ -22,6 +22,11 @@ import "react-rater/lib/react-rater.css";
 
 const styles = theme => ({});
 
+/**
+ * Vista principal de los usuarios.
+ * @visibleName Dashboard
+ */
+
 class dashboard extends React.Component {
   state = {
     recetas: [],
@@ -33,18 +38,44 @@ class dashboard extends React.Component {
     porFiltro: 1,
     ingredients: []
   };
+
+  /**
+   * Cambia tipo de filtro a por Ingrediente.
+   *
+   * @param {event} click
+   * @public
+   */
   handleButtonIngrediente = () => {
     this.setState({ porFiltro: 2 });
     console.log(this.state.porFiltro);
   };
+  /**
+   * Cambia tipo de filtro a por Nombre.
+   *
+   * @param {event} click
+   * @public
+   */
   handleButtonNombre = () => {
     this.setState({ porFiltro: 1 });
     console.log(this.state.porFiltro);
   };
+  /**
+   * Cambia tipo de filtro a por Rating.
+   *
+   * @param {event} click
+   * @public
+   */
   handleButtonRating = () => {
     this.setState({ porFiltro: 3 });
     console.log(this.state.porFiltro);
   };
+
+  /**
+   * Quitar ingredientes del filtro.
+   *
+   * @param {event} event
+   * @public
+   */
 
   removeFilter = filter => {
     var { filters } = this.state;
@@ -68,6 +99,13 @@ class dashboard extends React.Component {
     });
   };
 
+  /**
+   * Submit de la busqueda.
+   *
+   * @param {event} click
+   * @public
+   */
+
   mySubmitHandler = async event => {
     const { name } = this.state;
     console.log(name);
@@ -88,6 +126,13 @@ class dashboard extends React.Component {
       alert("Ingrese un nombre antes");
     }
   };
+
+  /**
+   * Submit del filtro por rating.
+   *
+   * @param {event} click
+   * @public
+   */
   mySubmitHandlerRating = async event => {
     const { rating } = this.state;
     console.log(rating);
@@ -110,6 +155,12 @@ class dashboard extends React.Component {
       alert("Ingrese un rating antes");
     }
   };
+  /**
+   * Submit del filtro por ingrediente.
+   *
+   * @param {event} click
+   * @public
+   */
   mySubmitHandler_ingr = async event => {
     var { filters, name } = this.state;
     var check = true;
@@ -374,6 +425,11 @@ class dashboard extends React.Component {
   }
 }
 dashboard.propTypes = {
+  /**
+   * A prop that should not be visible in the documentation.
+   *
+   * @ignore
+   */
   classes: PropTypes.object.isRequired
 };
 

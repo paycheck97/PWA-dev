@@ -89,12 +89,16 @@ const styles = theme => ({
     }
   }
 });
+/**
+ * Esta de lapagina principal de los administradores.
+ * @visibleName Administrador
+ */
 
 class admin extends Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
-    recetas:[],
+    recetas: []
   };
 
   componentDidMount() {
@@ -107,63 +111,92 @@ class admin extends Component {
       );
   }
 
-
+  /**
+   * Abrir dropdown del navbar.
+   *
+   * @param {event} click
+   * @public
+   */
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
+  /**
+   * Cerrar dropdown.
+   *
+   *
+   * @public
+   */
   handleMenuClose = () => {
     this.setState({ anchorEl: null });
     this.handleMobileMenuClose();
   };
 
+  /**
+   * Abrir dropdown del navbar (Mobil).
+   *
+   * @param {event} click
+   * @public
+   */
   handleMobileMenuOpen = event => {
     this.setState({ mobileMoreAnchorEl: event.currentTarget });
   };
 
+  /**
+   * Cerrar dropdown del navbar (Mobil).
+   *
+   *
+   * @public
+   */
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
-  getID = (id) => {
-    console.log(id)
-    
-  }
-  
+  /**
+   * Get id de usuario.
+   *
+   * @param {int} id
+   * @public
+   */
+  getID = id => {
+    console.log(id);
+  };
+
   render() {
-   
     return (
-      
       <div className="supercontainer">
         <MenuAppBar />
         <div className="jumbotron text-center" id="head">
-        <img src={Title} alt="logo" className="img-fluid align-middle" />
+          <img src={Title} alt="logo" className="img-fluid align-middle" />
         </div>
         <div className="container2">
           <div>
             <div id="search">
               <Form className="pure-form">
-                <Form.Control placeholder="Look up"></Form.Control>
-                
+                <Form.Control placeholder="Look up" />
               </Form>
               <Button type="submit" className="btn btn-secondary">
-                  Search
-                </Button>
+                Search
+              </Button>
             </div>
           </div>
           <div className="jumbotron text-center" id="head">
-          <img src={subTitle} alt="logo" className="img-fluid align-middle" />
+            <img src={subTitle} alt="logo" className="img-fluid align-middle" />
           </div>
           <div id="rec">
             <Recetas />
           </div>
         </div>
-        
       </div>
     );
   }
 }
 admin.propTypes = {
+  /**
+   * A prop that should not be visible in the documentation.
+   *
+   * @ignore
+   */
   classes: PropTypes.object.isRequired
 };
 

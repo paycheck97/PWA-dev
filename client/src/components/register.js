@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./register.css";
 
+/**
+ * Registrar nuevo Usuario.
+ * @visibleName Register
+ */
+
 class Register extends Component {
   state = {
     email: "",
@@ -26,7 +31,7 @@ class Register extends Component {
       alert(response.data);
     } catch (err) {
       console.log(err);
-      alert('Parece hubo un problema con el servidor');
+      alert("Parece hubo un problema con el servidor");
     }
   };
 

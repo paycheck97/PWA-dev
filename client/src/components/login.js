@@ -4,8 +4,13 @@ import LoginForm from "./loginForm";
 import Footer from "./footer";
 import Register from "./register";
 import Modal from "react-bootstrap/Modal";
-import {Typography} from "@material-ui/core";
-import axios from 'axios';
+import { Typography } from "@material-ui/core";
+import axios from "axios";
+
+/**
+ * Vista de Login para usuarios y para Administradores.
+ * @visibleName Login
+ */
 
 class Login extends Component {
   constructor(props) {
@@ -20,40 +25,64 @@ class Login extends Component {
       view: null,
       email: "",
       password: "",
-      answer: "",
-        };
+      answer: ""
+    };
   }
 
+  /**
+   * Maneja el submit de los datos del login.
+   *
+   * @param {event} click
+   * @public
+   */
+
   mySubmitHandler = async event => {
-    const { email, password, answer} = this.state;
+    const { email, password, answer } = this.state;
     event.preventDefault();
     try {
-      axios
-        .post("/change-password", { email, password, answer })
-        .then(res => {
-          if(res.data === true){
-            this.handleClose();
-            alert('Cambio de contraseña exitoso.');
-          }else{
-            this.handleClose();
-            alert('Cambio de contraseña fallido.')
-          }
-
-        });
+      axios.post("/change-password", { email, password, answer }).then(res => {
+        if (res.data === true) {
+          this.handleClose();
+          alert("Cambio de contraseña exitoso.");
+        } else {
+          this.handleClose();
+          alert("Cambio de contraseña fallido.");
+        }
+      });
     } catch (err) {
       console.log(err);
     }
   };
+
+  /**
+   * Maneja cambios en los inputs.
+   *
+   * @param {event} click
+   * @public
+   */
 
   myChangeHandler = async event => {
     let nam = event.target.name;
     let val = event.target.value;
     this.setState({ [nam]: val });
   };
+  /**
+   * Cerrar modal de Cambio de Password.
+   *
+   *
+   * @public
+   */
 
   handleClose() {
     this.setState({ show: false });
   }
+
+  /**
+   * Mostrar Modal de Cambio de Password.
+   *
+   *
+   * @public
+   */
 
   handleShow() {
     this.setState({ show: true });
@@ -65,11 +94,24 @@ class Login extends Component {
     borderRadius: "40px"
   };
 
+  /**
+   * Cambia la vista a la de Login para usuarios existentes.
+   *
+   * @param {event} click
+   * @public
+   */
   loginView = () => {
     this.setState({
       view: 1
     });
   };
+
+  /**
+   * Cambia la vista a la de Register para usuarios nuevos.
+   *
+   * @param {event} click
+   * @public
+   */
 
   regView = () => {
     this.setState({
@@ -125,8 +167,10 @@ class Login extends Component {
                   <Modal.Title>Password Change</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <Typography>Ingrese su correo electrónico y su respuesta secreta junto con
-                  su nueva clave de acceso.</Typography>
+                  <Typography>
+                    Ingrese su correo electrónico y su respuesta secreta junto
+                    con su nueva clave de acceso.
+                  </Typography>
                   <form onSubmit={this.mySubmitHandler}>
                     <div className="form-group ">
                       <input

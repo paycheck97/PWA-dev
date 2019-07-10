@@ -5,10 +5,22 @@ import Button from "react-bootstrap/Button";
 import MenuAppBar from "./navbar_admin";
 import axios from "axios";
 
+/**
+ * Vista para agregar ingredientes.
+ * @visibleName Admin/AddIngrediente
+ */
+
 class edit extends Component {
   state = {
-    name: "",
+    name: ""
   };
+
+  /**
+   * Maneja el submit de los ingredientes a agregar.
+   *
+   * @param {event} click
+   * @public
+   */
 
   mySubmitHandler = async event => {
     const { name } = this.state;
@@ -21,6 +33,12 @@ class edit extends Component {
       console.log(err);
     }
   };
+  /**
+   * Maneja cambios en los inputs.
+   *
+   * @param {event} click
+   * @public
+   */
   myChangeHandler = event => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -42,7 +60,7 @@ class edit extends Component {
                 name="name"
               />
             </Form.Group>
-            <Button variant="secondary" size="md" type="submit" id='boton_in'>
+            <Button variant="secondary" size="md" type="submit" id="boton_in">
               Submit
             </Button>
           </Form>
