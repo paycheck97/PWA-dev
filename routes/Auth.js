@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode");
 
@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
           name: check[0]["name"],
           last_name: check[0]["last_name"],
           password: check[0]["password"],
-          state: check[0]['state']
+          state: check[0]["state"]
         };
         let token = jwt.sign(user, process.env.SECRET_KEY, {
           expiresIn: 1440
