@@ -13,6 +13,11 @@ import { Container } from "@material-ui/core";
 import jwt_decode from "jwt-decode";
 import { withRouter } from "react-router-dom";
 
+/**
+ * Vista de los datos del Usuario Loggeado.
+ * @visibleName User
+ */
+
 class User extends Component {
   state = {
     name: "",

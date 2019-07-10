@@ -9,6 +9,11 @@ import axios from "axios";
 
 import Card from "react-bootstrap/Card";
 
+/**
+ * Muestra la informacion de la receta seleccionada.
+ * @visibleName User/Info
+ */
+
 class Info extends Component {
   state = {
     recetas: [],
@@ -17,6 +22,12 @@ class Info extends Component {
     rating: null
   };
 
+  /**
+   * Submit del rating del usuario.
+   *
+   * @param {event} click
+   * @public
+   */
   mySubmitHandler = async event => {
     const { rating } = this.state;
     event.preventDefault();
@@ -31,6 +42,13 @@ class Info extends Component {
       console.log(err);
     }
   };
+
+  /**
+   * Maneja los cambios en los inputs.
+   *
+   * @param {event} click
+   * @public
+   */
 
   myChangeHandler = async event => {
     let nam = event.target.name;
@@ -52,10 +70,10 @@ class Info extends Component {
   render() {
     const { recetas } = this.state;
     return (
-      <div className="justify-content-md-center" >
+      <div className="justify-content-md-center">
         <MenuAppBar />
         {recetas.map(receta => (
-          <Card id="carta_info" >
+          <Card id="carta_info">
             <Card.Img variant="top" src={receta.thumbnail} />
             <Card.Body>
               <Card.Title>{receta.name}</Card.Title>

@@ -1,47 +1,56 @@
 import React, { Component } from "react";
 import "./loginForm.css";
-import axios from 'axios';
-import {withRouter} from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
+import axios from "axios";
+import { withRouter } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+/**
+ * Campos del form en el componente Login.
+ * @visibleName Login/LoginForm
+ */
 
 class LoginForm extends Component {
   state = {
-    password: '',
-    email: '',
-  }
+    password: "",
+    email: ""
+  };
 
+  /**
+   * Maneja el submit de los datos.
+   *
+   * @param {event} click
+   * @public
+   */
   mySubmitHandler = async event => {
     event.preventDefault();
-    const {
-      email,
-      password,
-    } = this.state;
+    const { email, password } = this.state;
     try {
       const response = await axios.post("/login", {
         email,
-        password,
+        password
       });
-      if(response.data.length > 0){
+      if (response.data.length > 0) {
         const token = jwt_decode(response.data);
-        localStorage.setItem('userToken', response.data);
-        if(token.state === 1){
-          this.props.history.push('/Admin');
-        }else{
-          this.props.history.push('/Dashboard');
+        localStorage.setItem("userToken", response.data);
+        if (token.state === 1) {
+          this.props.history.push("/Admin");
+        } else {
+          this.props.history.push("/Dashboard");
         }
-        
-
-      } else{
-        alert('Incorrect User or Password');
+      } else {
+        alert("Incorrect User or Password");
       }
-
     } catch (err) {
       console.log(err);
     }
-    
   };
 
-
+  /**
+   * Maneja cambios en los inputs.
+   *
+   * @param {event} click
+   * @public
+   */
   myChangeHandler = async event => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -69,7 +78,7 @@ class LoginForm extends Component {
                   type="password"
                   className="form-control"
                   placeholder="Password"
-                  name='password'
+                  name="password"
                   onChange={this.myChangeHandler}
                 />
               </div>

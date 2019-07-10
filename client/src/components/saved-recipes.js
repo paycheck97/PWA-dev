@@ -9,6 +9,10 @@ import "react-rater/lib/react-rater.css";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
+/**
+ * Vista de recetas guardadas por el Usuario.
+ * @visibleName User/Favorites
+ */
 class prueba extends Component {
   state = {
     recetas: [],

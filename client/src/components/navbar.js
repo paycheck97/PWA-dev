@@ -13,7 +13,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { NavLink, withRouter } from "react-router-dom";
 
-
 const styles = {
   root: {
     flexGrow: 1
@@ -30,6 +29,11 @@ const styles = {
 function ListItemLink(props) {
   return <ListItem button {...props} />;
 }
+
+/**
+ * Navbar de las vistas de usuario.
+ * @visibleName User/Navbar
+ */
 class MenuAppBar extends React.Component {
   state = {
     auth: true,
@@ -44,15 +48,15 @@ class MenuAppBar extends React.Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = (e) => {
+  handleClose = e => {
     e.preventDefault();
     this.setState({ anchorEl: null });
   };
 
-  logout = (e) => {
-    e.preventDefault()
-    localStorage.removeItem('userToken');
-    this.props.history.push('/');
+  logout = e => {
+    e.preventDefault();
+    localStorage.removeItem("userToken");
+    this.props.history.push("/");
   };
 
   render() {
@@ -110,10 +114,12 @@ class MenuAppBar extends React.Component {
                     </ListItemLink>
                   </NavLink>
 
-                    <ListItemLink>
-                      <ListItemText primary="Logout" onClick={this.logout.bind(this)} />
-                    </ListItemLink>
-
+                  <ListItemLink>
+                    <ListItemText
+                      primary="Logout"
+                      onClick={this.logout.bind(this)}
+                    />
+                  </ListItemLink>
                 </List>
               </Menu>
             </div>
@@ -128,4 +134,4 @@ MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withRouter((withStyles(styles)(MenuAppBar)));
+export default withRouter(withStyles(styles)(MenuAppBar));

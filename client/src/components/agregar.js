@@ -6,6 +6,10 @@ import MenuAppBar from "./navbar_admin";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Chip from "@material-ui/core/Chip";
+/**
+ * Agregar Recetas
+ * @visibleName Admin/Agregar
+ */
 
 class edit extends Component {
   state = {
@@ -21,6 +25,13 @@ class edit extends Component {
     filters: [],
     ingre: ""
   };
+
+  /**
+   * Maneja informacion luego del submit del form.
+   *
+   * @param {event} event
+   * @public
+   */
   mySubmitHandler = async event => {
     const {
       name,
@@ -47,9 +58,8 @@ class edit extends Component {
       alert(response);
     } catch (err) {
       console.log(err);
-      alert(err)
+      alert(err);
     }
-    
   };
 
   mySubmitHandler_ingr = async event => {
@@ -65,10 +75,16 @@ class edit extends Component {
     if (check === true) {
       this.setState({ filters: this.state.filters.concat(ingre) }, () => {
         filters = this.state.filters;
-        
       });
     }
   };
+
+  /**
+   * Detecta cambios en los inputs.
+   *
+   * @param {event} event
+   * @public
+   */
   myChangeHandler = event => {
     let nam = event.target.name;
     let val = event.target.value;
