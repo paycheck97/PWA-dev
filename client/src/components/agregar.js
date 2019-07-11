@@ -6,6 +6,7 @@ import MenuAppBar from "./navbar_admin";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Chip from "@material-ui/core/Chip";
+import Title from "../img/agregar-recetas.png";
 /**
  * Agregar Recetas
  * @visibleName Admin/Agregar
@@ -117,7 +118,9 @@ class edit extends Component {
     return (
       <div>
         <MenuAppBar />
-        <h1>Agregar Recetas</h1>
+        <div className="jumbotron text-center" id="head">
+          <img src={Title} alt="logo" className="img-fluid align-middle" />
+        </div>
         <div id={"form"}>
           <Form onSubmit={this.mySubmitHandler}>
             <Form.Group controlId="exampleForm.ControlInput1">

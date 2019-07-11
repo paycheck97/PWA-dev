@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import MenuAppBar from "./navbar_admin";
 import axios from "axios";
+import Title from "../img/editar-receta.png";
 
 /**
  * Esta vista es para Editar Recetas.
@@ -98,7 +99,9 @@ class edit extends Component {
     return (
       <div>
         <MenuAppBar />
-        <h1>Editar Recetas</h1>
+        <div className="jumbotron text-center" id="head">
+          <img src={Title} alt="logo" className="img-fluid align-middle" />
+        </div>
         <div id={"form"}>
           {recetas.map(receta => (
             <div>
