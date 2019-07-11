@@ -1,10 +1,15 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Sous-Chef",
+  "name": "Sous-Chef App",
   "icons": [
     {
       "src": "/images/icons-512.png",
       "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icons-512.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ],
