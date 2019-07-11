@@ -1,6 +1,8 @@
 {
+
   "short_name": "Sous-Chef",
   "name": "Sous-Chef App",
+
   "icons": [
     {
       "src": "/images/icons-512.png",
@@ -13,8 +15,9 @@
       "type": "image/png"
     }
   ],
-  "start_url": ".",
+  "start_url": "/?utm_source=homescreen",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "orientation":"portrait"
 }
