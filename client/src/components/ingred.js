@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import MenuAppBar from "./navbar_admin";
 import axios from "axios";
-
+import Title from "../img/agregar-ingredientes.png";
 /**
  * Vista para agregar ingredientes.
  * @visibleName Admin/AddIngrediente
@@ -49,7 +49,9 @@ class edit extends Component {
     return (
       <div>
         <MenuAppBar />
-        <h1>Agregar Ingrediente</h1>
+        <div className="jumbotron text-center" id="head">
+          <img src={Title} alt="logo" className="img-fluid align-middle" />
+        </div>
         <div id="form">
           <Form onSubmit={this.mySubmitHandler}>
             <Form.Group controlId="exampleForm.ControlInput1">

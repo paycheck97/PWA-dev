@@ -12,6 +12,7 @@ import Row from "react-bootstrap/Row";
 import { Container } from "@material-ui/core";
 import jwt_decode from "jwt-decode";
 import { withRouter } from "react-router-dom";
+import Title from "../img/recetas-favoritas.png";
 
 /**
  * Vista de los datos del Usuario Loggeado.
@@ -32,8 +33,7 @@ class User extends Component {
         name: decode.name,
         last_name: decode.last_name
       });
-    }
-    else{
+    } else {
       this.props.history.push("/Dashboard");
     }
   }
@@ -72,9 +72,13 @@ class User extends Component {
               </Card>
             </Col>
             <Col xl={8} sm={12}>
-              <Typography variant="h4" className="my-3">
-                Recetas Favoritas
-              </Typography>
+              <div className="jumbotron text-center">
+                <img
+                  src={Title}
+                  alt="logo"
+                  className="img-fluid align-middle"
+                />
+              </div>
               <div id="recetas">
                 <Recetas />
               </div>
