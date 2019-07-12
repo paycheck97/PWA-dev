@@ -9,6 +9,11 @@ import subTitle from "../img/Recetas.png";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import MenuAppBar from "./navbar_admin";
+import axios from "axios";
+import { Typography } from "@material-ui/core";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -98,7 +103,8 @@ class admin extends Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
-    recetas: []
+    recetas: [],
+    search_recipes: []
   };
 
   componentDidMount() {
@@ -110,6 +116,35 @@ class admin extends Component {
         )
       );
   }
+
+  mySubmitHandler = async event => {
+    const { name } = this.state;
+    console.log(name);
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity() === true) {
+      try {
+        const response = axios.post("/search-recipes", { name }).then(res => {
+          const search_recipes = res.data;
+          this.setState({ search_recipes });
+          console.log(this.state.search_recipes);
+        });
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert("Ingrese un nombre antes");
+    }
+  };
+
+  myChangeHandler = async event => {
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({ [nam]: val });
+    console.log(nam);
+    console.log(val);
+  };
 
   /**
    * Abrir dropdown del navbar.
@@ -163,6 +198,7 @@ class admin extends Component {
   };
 
   render() {
+    const { search_recipes } = this.state;
     return (
       <div className="supercontainer">
         <MenuAppBar />
@@ -172,13 +208,54 @@ class admin extends Component {
         <div className="container2">
           <div>
             <div id="search">
-              <Form className="pure-form">
-                <Form.Control placeholder="Look up" />
+              <Form className="pure-form" onSubmit={this.mySubmitHandler}>
+                <Form.Control
+                  placeholder="Introduce un nombre"
+                  name="name"
+                  onChange={this.myChangeHandler}
+                />
+
+                <Button type="submit" className="btn btn-secondary my-3">
+                  Buscar
+                </Button>
               </Form>
-              <Button type="submit" className="btn btn-secondary">
-                Search
-              </Button>
             </div>
+          </div>
+          <div>
+            <Row>
+              {search_recipes.map(search_recipe => (
+                <Col lg={4} key={search_recipe.id}>
+                  <div
+                    className="card my-3"
+                    style={{ width: "85%", margin: "auto" }}
+                  >
+                    <img
+                      className="d-block w-100"
+                      src={search_recipe.thumbnail}
+                      alt={search_recipe.nombre}
+                    />
+                    <div className="card-body">
+                      <Typography className="card-title my-3" variant="h4">
+                        {search_recipe.name}
+                      </Typography>
+                      <Typography>
+                        Tiempo de preparacion {search_recipe.prep_time}
+                      </Typography>
+                      <Typography>
+                        Calorias {search_recipe.calories_ps}
+                      </Typography>
+                      <Typography>Servings {search_recipe.servings}</Typography>
+                      <Link
+                        to={`Edit/${search_recipe.id}`}
+                        className="btn btn-primary my-3"
+                      >
+                        Editar
+                      </Link>
+                    </div>
+                  </div>
+                </Col>
+              ))}
+            </Row>
           </div>
           <div className="jumbotron text-center" id="head">
             <img src={subTitle} alt="logo" className="img-fluid align-middle" />

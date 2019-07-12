@@ -219,7 +219,7 @@ class edit extends Component {
               </Form.Control>
             </Form.Group>
             <Button variant="secondary" size="lg" block type="submit">
-              Submit
+              Agregar
             </Button>
           </Form>
         </div>

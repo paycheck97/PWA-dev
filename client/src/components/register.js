@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./register.css";
+import { withRouter } from "react-router-dom";
 
 /**
  * Registrar nuevo Usuario.
@@ -28,7 +29,8 @@ class Register extends Component {
         answer
       });
       console.log(response);
-      alert(response.data);
+      alert("Ha creado un usuario con exito.");
+      this.props.action()
     } catch (err) {
       console.log(err);
       alert("Parece hubo un problema con el servidor");
@@ -127,4 +129,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default withRouter(Register);

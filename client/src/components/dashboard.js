@@ -18,6 +18,7 @@ import { Link, withRouter } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
+import jwt_decode from "jwt-decode";
 //import Bin from '../img/bin-2.png'
 
 const styles = theme => ({});
@@ -31,12 +32,12 @@ class dashboard extends React.Component {
   state = {
     recetas: [],
     name: "",
-    rating: null,
+    rating: 1,
     filters: [],
     search_recipes: [],
-
     porFiltro: 1,
-    ingredients: []
+    ingredients: [],
+    userID: null
   };
 
   /**
@@ -199,8 +200,9 @@ class dashboard extends React.Component {
 
   componentDidMount = event => {
     const token = localStorage.userToken;
+    const decode = jwt_decode(token);
     if (token != null) {
-      this.setState({ show: true });
+      this.setState({ show: true,userID: decode.id });
     }
     try {
       axios
@@ -210,6 +212,22 @@ class dashboard extends React.Component {
           this.setState({ ingredients });
         })
         .catch(e => console.log(e));
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  favRecipe = id_recipe => {
+    const id_user = this.state.userID;
+    try {
+      axios
+        .post("/fav-recipe", {
+          id_recipe,
+          id_user
+        })
+        .then(res => {
+          alert(res.data);
+        });
     } catch (e) {
       alert(e);
     }
@@ -373,7 +391,7 @@ class dashboard extends React.Component {
                           <Row className="justify-content-md-center d-flex flex-column my-3">
                             <Rater
                               total={5}
-                              rating={search_recipe.rating}
+                              rating={search_recipe.avg}
                               interactive={false}
                             />
                           </Row>
@@ -383,12 +401,12 @@ class dashboard extends React.Component {
                           >
                             Learn More
                           </Link>
-                          <Link
-                            to={`Info/${search_recipe.id}`}
+                          <Button
                             className="btn btn-warning"
+                            onClick={this.favRecipe.bind(this, search_recipe.id)}
                           >
                             Favorite
-                          </Link>
+                          </Button>
                         </div>
                       </div>
                     </Col>
@@ -402,7 +420,7 @@ class dashboard extends React.Component {
                   className="img-fluid align-middle"
                 />
               </div>
-              <div id="rec">
+              <div id="rec" className="my-3">
                 <Recetas />
               </div>
             </div>

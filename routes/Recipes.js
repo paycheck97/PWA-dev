@@ -5,7 +5,7 @@ const pool = require("../database");
 router.get("/recipes", async (req, res) => {
   try {
     const recetas = await pool.query(
-      "SELECT * FROM recipe ORDER BY rating DESC LIMIT 5"
+      "SELECT *, avg(ratings.rate) AS avg from recipe INNER JOIN ratings ON recipe.id = ratings.id_recipe GROUP BY id_recipe ORDER BY rate DESC LIMIT 5"
     );
     res.json(recetas);
   } catch (e) {
@@ -15,29 +15,13 @@ router.get("/recipes", async (req, res) => {
 
 router.post("/saved-recipes", async (req, res) => {
   const { id_user } = req.body;
-  var saved_recipes = [];
-  var id_receta_salvada = null;
-  var aux_recetas = null;
   console.log(id_user);
   try {
     const id_recetas = await pool.query(
-      "SELECT id_recipe FROM saves WHERE id_user = ?",
+      "SELECT * FROM saves INNER JOIN recipe ON saves.id_recipe = recipe.id WHERE id_user = ?",
       [id_user]
     );
-    console.log(id_recetas);
-    const aux = id_recetas.map(async id_receta => {
-      id_receta_salvada = id_receta["id_recipe"];
-      console.log(id_receta_salvada);
-      aux_recetas = await pool.query("SELECT * FROM recipe WHERE id = ?", [
-        id_receta_salvada
-      ]);
-      saved_recipes.push(aux_recetas[0]);
-    });
-
-    Promise.all(aux).then(async () => {
-      console.log(saved_recipes);
-      res.json(saved_recipes);
-    });
+      res.json(id_recetas);
   } catch (e) {
     console.log(e);
   }
@@ -61,6 +45,17 @@ router.get("/view-recipe/:id", async (req, res) => {
     res.json(recipe);
   } catch (e) {
     req.flash("success", "No se");
+  }
+});
+
+router.get("/look-ingre/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const ingred = await pool.query("SELECT id_recipe, ingredient.name FROM search INNER JOIN ingredient ON search.id_ingredient = ingredient.id WHERE id_recipe = ?", [id]);
+    console.log(ingred);
+    res.json(ingred);
+  } catch (e) {
+    console.log(e);
   }
 });
 
@@ -107,7 +102,7 @@ router.post("/search-recipes-i", async (req, res) => {
     Promise.all(ser).then(async () => {
       for (i = whole.length - 1; i >= 0; i--) {
         try {
-          const aux = await pool.query("SELECT * FROM recipe WHERE id = ?", [
+          const aux = await pool.query("SELECT *, AVG(rate) as avg FROM recipe INNER JOIN ratings ON recipe.id = ratings.id_recipe WHERE id = ?", [
             whole[i]["id_recipe"]
           ]);
           in_recetas.push(aux[0]);
@@ -128,7 +123,7 @@ router.post("/search-recipes", async (req, res) => {
   var { name } = req.body;
   name = name.concat("%");
   try {
-    const reci = await pool.query("SELECT * FROM recipe WHERE name LIKE ? ", [
+    const reci = await pool.query("SELECT *, AVG(rate) as avg FROM recipe INNER JOIN ratings ON recipe.id = ratings.id_recipe WHERE name LIKE ? ", [
       name
     ]);
     console.log(reci);
@@ -145,7 +140,7 @@ router.post("/search-recipes-val", async (req, res) => {
   top = Number(rating) + top;
   try {
     const reci = await pool.query(
-      "SELECT * FROM recipe WHERE rating >= ?  && rating < ?",
+      "SELECT *, AVG(rate) as avg FROM recipe INNER JOIN ratings ON recipe.id = ratings.id_recipe GROUP BY recipe.id HAVING AVG(rate) >= ?  && AVG(rate) < ? ",
       [rating, top]
     );
     res.json(reci);
@@ -225,16 +220,6 @@ router.post("/update-recipe/:id", async (req, res) => {
   }
 });
 
-router.post("/change-rating/:id", async (req, res) => {
-  const { rating } = req.body;
-  const { id } = req.params;
-  console.log(id);
-  try {
-    await pool.query("UPDATE recipe SET rating = ? WHERE id = ?", [rating, id]);
-  } catch (e) {
-    console.log(e);
-  }
-});
 
 router.post("/delete-recipe/:id", async (req, res) => {
   const { id } = req.params;
@@ -246,12 +231,26 @@ router.post("/delete-recipe/:id", async (req, res) => {
   }
 });
 
-router.post("/change-rating/:id", async (req, res) => {
-  const { rating } = req.body;
+router.post("/delete-saved/:id", async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+  const {userID} = req.body;
+
   try {
-    await pool.query("UPDATE recipe SET rating = ? WHERE id = ?", [rating, id]);
+    await pool.query("DELETE FROM saves WHERE id_user = ? && id_recipe = ?", [userID, id]);
+    res.json('Fino')
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.post("/change-rating/:id", async (req, res) => {
+  console.log('hola');
+  const { rating, userID } = req.body;
+  const { id } = req.params;
+
+  try {
+    const res = await pool.query("INSERT INTO ratings (id_user, id_recipe, rate) VALUES (?,?,?) ON DUPLICATE KEY UPDATE  rate= ?", [userID, id, rating,rating]);
+    res.json(true);
   } catch (e) {
     console.log(e);
   }

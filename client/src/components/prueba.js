@@ -41,22 +41,22 @@ class prueba extends Component {
                       alt={receta.nombre}
                     />
                     <div className="card-body">
-                      <Typography variant="h4" className="card-title">
+                      <Typography variant="h4" className="card-title my-3">
                         {receta.name}
                       </Typography>
                       <Typography variant="h6">
-                        Autor: {receta.author}
+                        {receta.author}
                       </Typography>
-                      <Typography>
+                      <Typography >
                         Tiempo de preparacion {receta.prep_time}
                       </Typography>
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
                       <Link
                         to={`Edit/${receta.id}`}
-                        className="btn btn-primary"
+                        className="btn btn-primary my-3"
                       >
-                        Edit
+                        Editar
                       </Link>
                     </div>
                   </div>

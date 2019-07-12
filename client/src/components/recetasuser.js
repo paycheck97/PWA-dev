@@ -29,8 +29,7 @@ class prueba extends Component {
     this.setState(
       {
         userID: decode.id
-      },
-      () => console.log(this.state.userID)
+      }
     );
 
     try {
@@ -87,7 +86,7 @@ class prueba extends Component {
                       <Row className="justify-content-md-center d-flex flex-column my-3">
                         <Rater
                           total={5}
-                          rating={receta.rating}
+                          rating={receta.avg}
                           interactive={false}
                         />
                       </Row>

@@ -8,6 +8,7 @@ import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import Button from "react-bootstrap/Button";
 
 /**
  * Vista de recetas guardadas por el Usuario.
@@ -19,6 +20,19 @@ class prueba extends Component {
     receta_id: null,
     rating: null,
     userID: null
+  };
+
+  removeHandler = async id => {
+    console.log(id);
+    const { userID } = this.state;
+    try {
+      await axios.post(`/delete-saved/${id}`, { userID });
+      
+      alert("Receta Borrada con exito");
+      this.forceUpdate()
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   componentDidMount = event => {
@@ -74,13 +88,22 @@ class prueba extends Component {
                           interactive={false}
                         />
                       </Row>
-
-                      <Link
-                        to={`Info/${receta.id}`}
-                        className="btn btn-primary"
-                      >
-                        Learn More
-                      </Link>
+                      <div className="btn-group">
+                        <Link
+                          to={`Info/${receta.id}`}
+                          className="btn btn-primary"
+                        >
+                          Learn More
+                        </Link>
+                        <Button
+                          onClick={this.removeHandler.bind(this, receta.id)}
+                          variant="Remove"
+                          className="btn btn-danger"
+                          type="submit"
+                        >
+                          Remove
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </Carousel.Item>

@@ -63,7 +63,7 @@ class edit extends Component {
               />
             </Form.Group>
             <Button variant="secondary" size="md" type="submit" id="boton_in">
-              Submit
+              Agregar
             </Button>
           </Form>
         </div>
