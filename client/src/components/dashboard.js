@@ -239,8 +239,15 @@ class dashboard extends React.Component {
                 placeholder="Choose by Rating (1-5)"
                 onChange={this.myChangeHandler}
                 name="rating"
+                as="select"
                 required
-              />
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </Form.Control>
             </Form.Group>
             <Button variant="light" type="submit">
               Search
