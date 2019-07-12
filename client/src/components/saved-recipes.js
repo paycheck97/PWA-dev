@@ -68,27 +68,20 @@ class prueba extends Component {
             <Carousel indicators={false}>
               {recetas.map(receta => (
                 <Carousel.Item key={receta.id}>
-                  <div className="card shadow-md">
+                  <div className="card shadow-md my-2">
                     <img
                       className="d-block w-100"
                       src={receta.thumbnail}
                       alt={receta.nombre}
                     />
                     <div className="card-body justify-content-md-center">
-                      <Typography variant="h4">{receta.name}</Typography>
+                      <Typography className="my-3" variant="h4">{receta.name}</Typography>
                       <Typography>
                         Tiempo de preparacion {receta.prep_time}
                       </Typography>
                       <Typography>Calorias {receta.calories_ps}</Typography>
                       <Typography>Servings {receta.servings}</Typography>
-                      <Row className="justify-content-md-center d-flex flex-column my-3">
-                        <Rater
-                          total={5}
-                          rating={receta.rating}
-                          interactive={false}
-                        />
-                      </Row>
-                      <div className="btn-group">
+                      <div className="btn-group my-4">
                         <Link
                           to={`Info/${receta.id}`}
                           className="btn btn-primary"
