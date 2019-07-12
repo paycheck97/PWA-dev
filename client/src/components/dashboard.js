@@ -16,7 +16,6 @@ import Title from "../img/recetas-sugeridas.png";
 import axios from "axios";
 import { Link, withRouter } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
-import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
 import jwt_decode from "jwt-decode";
 //import Bin from '../img/bin-2.png'
@@ -376,7 +375,7 @@ class dashboard extends React.Component {
                           alt={search_recipe.nombre}
                         />
                         <div className="card-body">
-                          <Typography className="card-title" variant="h4">
+                          <Typography className="card-title my-3" variant="h4">
                             {search_recipe.name}
                           </Typography>
                           <Typography>
@@ -388,14 +387,7 @@ class dashboard extends React.Component {
                           <Typography>
                             Servings {search_recipe.servings}
                           </Typography>
-                          <Row className="justify-content-md-center d-flex flex-column my-3">
-                            <Rater
-                              total={5}
-                              rating={search_recipe.avg}
-                              interactive={false}
-                            />
-                          </Row>
-                          <Link
+                          <div className="my-5"><Link
                             to={`Info/${search_recipe.id}`}
                             className="btn btn-primary"
                           >
@@ -406,7 +398,8 @@ class dashboard extends React.Component {
                             onClick={this.favRecipe.bind(this, search_recipe.id)}
                           >
                             Favorite
-                          </Button>
+                          </Button></div>
+                          
                         </div>
                       </div>
                     </Col>

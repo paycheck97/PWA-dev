@@ -102,7 +102,7 @@ router.post("/search-recipes-i", async (req, res) => {
     Promise.all(ser).then(async () => {
       for (i = whole.length - 1; i >= 0; i--) {
         try {
-          const aux = await pool.query("SELECT *, AVG(rate) as avg FROM recipe INNER JOIN ratings ON recipe.id = ratings.id_recipe WHERE id = ?", [
+          const aux = await pool.query("SELECT * FROM recipe WHERE id = ?", [
             whole[i]["id_recipe"]
           ]);
           in_recetas.push(aux[0]);
@@ -123,7 +123,7 @@ router.post("/search-recipes", async (req, res) => {
   var { name } = req.body;
   name = name.concat("%");
   try {
-    const reci = await pool.query("SELECT *, AVG(rate) as avg FROM recipe INNER JOIN ratings ON recipe.id = ratings.id_recipe WHERE name LIKE ? ", [
+    const reci = await pool.query("SELECT * FROM recipe WHERE name LIKE ? ", [
       name
     ]);
     console.log(reci);
